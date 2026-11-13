@@ -18,6 +18,28 @@ inglés y español.
 > El fork anterior para Redmine 6 (`redmine-modern-theme-mf`) es un proyecto aparte y no
 > es necesario. Lumen se puede instalar junto a él.
 
+## Capturas
+
+Tomadas del proyecto **Lumen Demo** en Redmine 7.0.3, con la columna de Peso de la Tarea
+visible en el listado. Hacé clic en una imagen para verla en tamaño completo.
+
+| Vistazo del proyecto | Listado de incidencias |
+| --- | --- |
+| [![Vistazo en modo claro](screenshots/overview-light.png)](screenshots/overview-light.png) | [![Listado en modo claro](screenshots/issues-light.png)](screenshots/issues-light.png) |
+| **Mi página** | **Administración** |
+| [![Mi página en modo claro](screenshots/my-page-light.png)](screenshots/my-page-light.png) | [![Administración en modo claro](screenshots/admin-light.png)](screenshots/admin-light.png) |
+
+<details>
+<summary>Modo oscuro</summary>
+
+| Vistazo del proyecto | Listado de incidencias |
+| --- | --- |
+| [![Vistazo en modo oscuro](screenshots/overview-dark.png)](screenshots/overview-dark.png) | [![Listado en modo oscuro](screenshots/issues-dark.png)](screenshots/issues-dark.png) |
+| **Mi página** | **Administración** |
+| [![Mi página en modo oscuro](screenshots/my-page-dark.png)](screenshots/my-page-dark.png) | [![Administración en modo oscuro](screenshots/admin-dark.png)](screenshots/admin-dark.png) |
+
+</details>
+
 ## Características
 
 ### Theme
@@ -74,13 +96,18 @@ tabla a `RM_I18N` en `javascripts/theme.js`; ver
 
 ### Compatibilidad con plugins
 
-Incluye estilos para los plugins usados en la instalación de referencia:
+Lumen está probado con los plugins de su instalación de referencia. Aplica la paleta
+activa a sus superficies y los mantiene legibles en modo claro y oscuro.
 
-- RedmineUP Agile / Testcase / Vault
-- RedmineUP Checklists
-- RedmineUP Pins
-- Redmineflux Taskboard / board y su lista compacta
-- Bloques de código de View Customize
+| Plugin | Qué cubre Lumen |
+| --- | --- |
+| **RedmineUP Agile** | Tablero, columnas de planificación, límites WIP y pantalla completa. |
+| **RedmineUP Pins** | Barra de pins, tarjetas y colores del modo oscuro. |
+| **Redmineflux Taskboard** | Tablero, tarjetas, menús y listado compacto. |
+| **Redmine Task Weight** | Columna y valores de peso en listados, con los estilos de tabla del theme. |
+| **RedmineUP Checklists** | Campos de checklist y formulario de alta. |
+| **RedmineUP Testcase / Vault** | Barras laterales, filtros, etiquetas y gráficas embebidas. |
+| **View Customize** | Bloques de código y snippets personalizados. |
 
 Los plugins que usan las variables `--oc-*` de Redmine suelen heredar la paleta activa.
 

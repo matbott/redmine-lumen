@@ -157,6 +157,6 @@ Then hard-refresh the browser (`Ctrl+F5`). If assets are served from a CDN, purg
 - Due-date colours on the global issue list.
 - 60/90-day due bands.
 - Project dashboard preferences shared through a custom field or plugin.
-- Screenshots and a demo gallery.
+- Screenshots for mobile, Gantt, calendar and issue detail views.
 - Optional Ctrl+K search, favourites and quick filters.
 - Grafana iframe theme sync (outside the theme itself).

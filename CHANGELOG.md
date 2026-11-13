@@ -26,6 +26,10 @@ First public Lumen release. This packages the 1.2.4 codebase, based on
 - Sidebar width setting on My account (180–360 px, per browser).
 - Theme version displayed on My account.
 - Lumen theme identity, documentation, license and attribution.
+- Light and dark screenshot gallery for the project overview, issue list, My page and
+  Administration, captured from the Lumen Demo project.
+- Documented, tested plugin compatibility for RedmineUP Agile and Pins, Redmineflux
+  Taskboard, Redmine Task Weight, RedmineUP Checklists, Testcase/Vault and View Customize.
 
 ### Fixed
 

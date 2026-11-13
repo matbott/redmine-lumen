@@ -17,6 +17,28 @@ issue-list metrics, initials avatars, plugin compatibility and English/Spanish U
 > The previous Redmine 6 fork (`redmine-modern-theme-mf`) is a separate project and is not
 > required. Lumen can be installed alongside it.
 
+## Screenshots
+
+Captured from the **Lumen Demo** project on Redmine 7.0.3, including the Task Weight
+column in the issue list. Click an image to open it full size.
+
+| Project overview | Issue list |
+| --- | --- |
+| [![Project overview in light mode](screenshots/overview-light.png)](screenshots/overview-light.png) | [![Issue list in light mode](screenshots/issues-light.png)](screenshots/issues-light.png) |
+| **My page** | **Administration** |
+| [![My page in light mode](screenshots/my-page-light.png)](screenshots/my-page-light.png) | [![Administration in light mode](screenshots/admin-light.png)](screenshots/admin-light.png) |
+
+<details>
+<summary>Dark mode</summary>
+
+| Project overview | Issue list |
+| --- | --- |
+| [![Project overview in dark mode](screenshots/overview-dark.png)](screenshots/overview-dark.png) | [![Issue list in dark mode](screenshots/issues-dark.png)](screenshots/issues-dark.png) |
+| **My page** | **Administration** |
+| [![My page in dark mode](screenshots/my-page-dark.png)](screenshots/my-page-dark.png) | [![Administration in dark mode](screenshots/admin-dark.png)](screenshots/admin-dark.png) |
+
+</details>
+
 ## Why Lumen
 
 - **Dark mode that follows the OS** until you choose, then remembers your choice per
@@ -83,13 +105,18 @@ To add a language, add one table to `RM_I18N` in `javascripts/theme.js`. See
 
 ### Plugin compatibility
 
-The theme includes styling for the plugins used in its reference installation:
+Lumen is tested against the plugins in its reference Redmine 7 installation. It styles
+their surfaces with the active palette and keeps them readable in light and dark mode.
 
-- RedmineUP Agile / Testcase / Vault
-- RedmineUP Checklists
-- RedmineUP Pins
-- Redmineflux Taskboard / board and its compact list
-- View Customize code blocks
+| Plugin | Covered by Lumen |
+| --- | --- |
+| **RedmineUP Agile** | Board, planning columns, WIP limits and fullscreen mode. |
+| **RedmineUP Pins** | Pin toolbar, cards and dark-mode colours. |
+| **Redmineflux Taskboard** | Board, task cards, menus and the compact issue list. |
+| **Redmine Task Weight** | Weight column and values in issue lists, using the themed table styles. |
+| **RedmineUP Checklists** | Checklist fields and the new-item form. |
+| **RedmineUP Testcase / Vault** | Sidebars, filters, tags and embedded charts. |
+| **View Customize** | Code blocks and custom snippets. |
 
 Other plugins that use Redmine's `--oc-*` variables usually inherit the active scheme
 automatically.

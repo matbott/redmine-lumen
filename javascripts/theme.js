@@ -1,0 +1,2213 @@
+/* ============================================================
+   LUMEN — a modern Redmine 7 theme
+   https://github.com/matbott/redmine-lumen
+
+   Based on acosonic/redmine-modern-theme (MIT) by Aleksandar Pavic.
+   Local customisations and translations by Matias Fusaro and the
+   OpenCode AI collaborator. See README.md and LICENSE.
+
+   Loaded by Redmine's heads_for_theme as a plain script in <head>,
+   after jQuery and core's scripts, before the page is parsed.
+   ============================================================ */
+
+/* ── THEME IDENTITY ─────────────────────────────────────────── */
+var RM_THEME = {
+  id: 'redmine-lumen',
+  name: 'Lumen',
+  version: '1.2.4'
+};
+
+/* ── TRANSLATIONS ─────────────────────────────────────────────
+   Add a language by adding its ISO 639-1 code to `tables` below.
+   Placeholders use {name}; the locale comes from <html lang="…">.
+   Missing keys fall back to English, then to the key itself. */
+var RM_I18N = (function () {
+  var en = {
+    toggleDark: 'Toggle dark mode',
+    darkMode: 'Dark mode',
+    lightMode: 'Light mode',
+    colourScheme: 'Colour scheme',
+    recentSchemes: 'Recent colour schemes',
+    allSchemes: 'All colour schemes…',
+    accentColour: 'Accent colour',
+    accent: '{name} accent',
+    lowContrastStrong: 'This palette has low contrast, so its colours were changed noticeably',
+    adjustedForReadability: 'Adjusted for readability',
+    anyGogh: 'Any Gogh scheme',
+    searchGoghPlaceholder: 'Search all Gogh schemes by name…',
+    searchGogh: 'Search Gogh colour schemes',
+    matchingGogh: 'Matching Gogh schemes',
+    loading: 'Loading…',
+    noSchemeMatch: 'No scheme matches “{query}”.',
+    showingMatches: 'Showing 24 of {n} matches — type more to narrow it down.',
+    oneMatch: '1 match.',
+    manyMatches: '{n} matches.',
+    goghLoadFailed: 'Could not load the Gogh palettes.',
+    sidebarPosition: 'Sidebar position',
+    left: 'Left',
+    right: 'Right',
+    desktopSidebar: 'Desktop only — on small screens the sidebar always opens from the left. Saved in this browser only.',
+    colourSchemes: '{name} colour schemes',
+    defaultSchemes: 'Default',
+    darkSchemes: 'Dark',
+    lightSchemes: 'Light',
+    noColorMix: 'This browser does not support colour schemes (needs CSS color-mix()).',
+    schemesHint: 'Applies immediately and is saved in this browser only, separately for dark and light mode. Palettes from Gogh (github.com/Gogh-Co/Gogh).',
+    dark: 'dark',
+    light: 'light',
+    subtasks: 'Subtasks',
+    relatedIssues: 'Related Issues',
+    watchers: 'Watchers',
+    attention: 'Attention',
+    recentActivity: 'Recent activity',
+    unassigned: 'Unassigned',
+    agoDays: '{n} d ago',
+    inDays: 'in {n} d',
+    today: 'today',
+    lateTitle: 'Overdue ({n})',
+    nothingLate: 'Nothing overdue',
+    soonTitle: 'Due in 7 days ({n})',
+    nothingSoon: 'Nothing due soon',
+    stalledTitle: 'Stalled +{days} d ({n})',
+    nothingStalled: 'Nothing stalled',
+    loadFailed: 'Could not load.',
+    noActivity: 'No activity yet.',
+    activityLoadFailed: 'Could not load activity.',
+    justNow: 'just now',
+    minutesAgo: '{n} min ago',
+    hoursAgo: '{n} h ago',
+    daysAgo: '{n} d ago',
+    openByTracker: 'Open by tracker',
+    openByAssignee: 'Open by assignee',
+    groupOpenBy: 'Group open issues by',
+    tracker: 'Tracker',
+    assignee: 'Assignee',
+    others: 'Others',
+    noOpenIssues: 'No open issues.',
+    openIssuesAria: '{n} open issues',
+    openCaption: 'open',
+    reportLoadFailed: 'Could not load the report.',
+    newIssue: 'New issue',
+    issues: 'Issues',
+    kpiOpen: 'Open',
+    kpiClosed: 'Closed',
+    kpiTotal: 'Total',
+    kpiComplete: 'Complete',
+    kpiMembers: 'Members',
+    percentClosed: '% closed',
+    percentClosedTitle: '{n}% closed',
+    unassignedChip: 'unassigned',
+    overdueChip: 'overdue',
+    noDueChip: 'no due date',
+    newChip: 'new 7 d',
+    closedChip: 'closed 7 d',
+    avgCloseChip: 'avg. close',
+    stalledChip: 'stalled',
+    opsAria: 'Operational indicators',
+    customise: 'Customise',
+    indicators: 'Indicators',
+    kpiBasic: 'Basic KPIs',
+    donutGroup: 'Donut by tracker / assignee',
+    chipUnassigned: 'Chip: unassigned',
+    chipOverdue: 'Chip: overdue',
+    chipNoDue: 'Chip: no due date',
+    chipNew: 'Chip: new (7 days)',
+    chipClosed: 'Chip: closed (7 days)',
+    chipAvg: 'Chip: average close',
+    chipStalled: 'Chip: stalled',
+    issueCards: 'Issue list cards',
+    attentionPanel: 'Attention panel',
+    listLate: 'List: overdue (4)',
+    listSoon: 'List: due soon (4)',
+    listStalled: 'List: stalled (4)',
+    dueColours: 'Due-date colours',
+    dueLate: 'Overdue (red)',
+    dueWeek: 'Due in 7 d (orange)',
+    dueMonth: 'Due in 30 d (yellow)',
+    stalledMoreThan: 'Stalled for more than',
+    days: '{n} days',
+    savedHint: 'Saved in this browser for this project.',
+    totalOpen: 'Total open',
+    myAssigned: 'Assigned open',
+    myLate: 'Overdue',
+    myWeek: 'Due in 7 days',
+    myReported: 'Reported open',
+    myClosed: 'Closed in 7 days',
+    myStalled: 'Stalled +7 d',
+    sidebarWidth: 'Sidebar width',
+    sidebarWidthHint: 'Between 180 and 360 px. Saved in this browser only.'
+  };
+  var es = {
+    toggleDark: 'Cambiar modo oscuro',
+    darkMode: 'Modo oscuro',
+    lightMode: 'Modo claro',
+    colourScheme: 'Paleta de colores',
+    recentSchemes: 'Paletas recientes',
+    allSchemes: 'Todas las paletas…',
+    accentColour: 'Color de acento',
+    accent: 'Acento {name}',
+    lowContrastStrong: 'Esta paleta tiene poco contraste, así que sus colores se ajustaron de forma notoria',
+    adjustedForReadability: 'Ajustada para legibilidad',
+    anyGogh: 'Cualquier paleta de Gogh',
+    searchGoghPlaceholder: 'Buscar paletas de Gogh por nombre…',
+    searchGogh: 'Buscar paletas de Gogh',
+    matchingGogh: 'Paletas de Gogh encontradas',
+    loading: 'Cargando…',
+    noSchemeMatch: 'Ninguna paleta coincide con “{query}”.',
+    showingMatches: 'Mostrando 24 de {n} coincidencias — escribí más para acotar.',
+    oneMatch: '1 coincidencia.',
+    manyMatches: '{n} coincidencias.',
+    goghLoadFailed: 'No se pudieron cargar las paletas de Gogh.',
+    sidebarPosition: 'Posición de la barra lateral',
+    left: 'Izquierda',
+    right: 'Derecha',
+    desktopSidebar: 'Solo escritorio — en pantallas chicas la barra siempre se abre desde la izquierda. Se guarda solo en este navegador.',
+    colourSchemes: 'Paletas {name}',
+    defaultSchemes: 'Predeterminadas',
+    darkSchemes: 'Oscuras',
+    lightSchemes: 'Claras',
+    noColorMix: 'Este navegador no soporta paletas de colores (necesita CSS color-mix()).',
+    schemesHint: 'Se aplica al instante y se guarda solo en este navegador, por separado para modo oscuro y claro. Paletas de Gogh (github.com/Gogh-Co/Gogh).',
+    dark: 'oscura',
+    light: 'clara',
+    subtasks: 'Subtareas',
+    relatedIssues: 'Incidencias relacionadas',
+    watchers: 'Observadores',
+    attention: 'Atención',
+    recentActivity: 'Actividad reciente',
+    unassigned: 'Sin asignar',
+    agoDays: 'hace {n} d',
+    inDays: 'en {n} d',
+    today: 'hoy',
+    lateTitle: 'Vencidas ({n})',
+    nothingLate: 'Nada vencido',
+    soonTitle: 'Vencen en 7 días ({n})',
+    nothingSoon: 'Nada por vencer',
+    stalledTitle: 'Estancadas +{days} d ({n})',
+    nothingStalled: 'Nada estancado',
+    loadFailed: 'No se pudo cargar.',
+    noActivity: 'Sin actividad todavía.',
+    activityLoadFailed: 'No se pudo cargar la actividad.',
+    justNow: 'recién',
+    minutesAgo: 'hace {n} min',
+    hoursAgo: 'hace {n} h',
+    daysAgo: 'hace {n} d',
+    openByTracker: 'Abiertas por tipo',
+    openByAssignee: 'Abiertas por asignado',
+    groupOpenBy: 'Agrupar las abiertas por',
+    tracker: 'Tipo',
+    assignee: 'Asignado',
+    others: 'Otros',
+    noOpenIssues: 'Sin incidencias abiertas.',
+    openIssuesAria: '{n} incidencias abiertas',
+    openCaption: 'abiertas',
+    reportLoadFailed: 'No se pudo cargar el informe.',
+    newIssue: 'Nueva incidencia',
+    issues: 'Incidencias',
+    kpiOpen: 'Abiertas',
+    kpiClosed: 'Cerradas',
+    kpiTotal: 'Total',
+    kpiComplete: 'Completado',
+    kpiMembers: 'Miembros',
+    percentClosed: '% cerradas',
+    percentClosedTitle: '{n}% cerradas',
+    unassignedChip: 'sin asignar',
+    overdueChip: 'vencidas',
+    noDueChip: 'sin fecha',
+    newChip: 'nuevas 7 d',
+    closedChip: 'cerradas 7 d',
+    avgCloseChip: 'cierre prom.',
+    stalledChip: 'estancadas',
+    opsAria: 'Indicadores operativos',
+    customise: 'Personalizar',
+    indicators: 'Indicadores',
+    kpiBasic: 'KPI básicas',
+    donutGroup: 'Dona por tipo / asignado',
+    chipUnassigned: 'Chip: sin asignar',
+    chipOverdue: 'Chip: vencidas',
+    chipNoDue: 'Chip: sin fecha límite',
+    chipNew: 'Chip: nuevas (7 días)',
+    chipClosed: 'Chip: cerradas (7 días)',
+    chipAvg: 'Chip: cierre promedio',
+    chipStalled: 'Chip: estancadas',
+    issueCards: 'Tarjetas del listado',
+    attentionPanel: 'Panel de atención',
+    listLate: 'Lista: vencidas (4)',
+    listSoon: 'Lista: por vencer (4)',
+    listStalled: 'Lista: estancadas (4)',
+    dueColours: 'Colores de vencimiento',
+    dueLate: 'Vencidas (rojo)',
+    dueWeek: 'Vencen en 7 d (naranja)',
+    dueMonth: 'Vencen en 30 d (amarillo)',
+    stalledMoreThan: 'Estancadas hace más de',
+    days: '{n} días',
+    savedHint: 'Se guarda en este navegador para este proyecto.',
+    totalOpen: 'Total abiertas',
+    myAssigned: 'Asignadas abiertas',
+    myLate: 'Vencidas',
+    myWeek: 'Vencen en 7 días',
+    myReported: 'Reportadas abiertas',
+    myClosed: 'Cerradas 7 días',
+    myStalled: 'Estancadas +7 d',
+    sidebarWidth: 'Ancho de la barra lateral',
+    sidebarWidthHint: 'Entre 180 y 360 px. Se guarda solo en este navegador.'
+  };
+  var tables = { en: en, es: es };
+  var locale = document.documentElement.lang || 'en';
+  var lang = locale.toLowerCase().split('-')[0];
+  var table = tables[lang] || en;
+  function t(key, vars) {
+    var s = (table && table[key]) || en[key] || key;
+    if (vars) Object.keys(vars).forEach(function (k) {
+      s = s.split('{' + k + '}').join(vars[k]);
+    });
+    return s;
+  }
+  return { t: t, locale: locale, lang: lang };
+})();
+
+/* ── BEFORE FIRST PAINT (synchronous — must stay first) ────── */
+(function () {
+  var root = document.documentElement;
+  var get = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  var stored = get('rm-dark');
+  var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  root.classList.add(stored === '1' || (stored === null && prefersDark) ? 'dark-mode' : 'light-mode');
+  // Colour scheme (see initSchemePicker). rm-dark is kept in step with the scheme's
+  // variant when one is picked, so the class above already matches.
+  var scheme = get('rm-scheme');
+  if (scheme) root.setAttribute('data-scheme', scheme);
+  // A scheme picked from the full Gogh list carries its own computed --s-* values
+  if (scheme === 'gogh') {
+    try {
+      var vars = JSON.parse(get('rm-scheme-gogh')).vars;
+      for (var k in vars) root.style.setProperty(k, vars[k]);
+    } catch (e) { root.removeAttribute('data-scheme'); }
+  }
+  // Sidebar side (see initSidebarSettings) — desktop only, the CSS ignores it on mobile
+  if (get('rm-sidebar-side') === 'right') root.setAttribute('data-sidebar', 'right');
+}());
+
+/* ── REST runs after DOM is ready ──────────────────────────── */
+(function () {
+  'use strict';
+
+  var qs  = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+  var qsa = function (sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); };
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } },
+    del: function (k) { try { localStorage.removeItem(k); } catch (e) { /* private mode */ } }
+  };
+
+  /* ── LIGHT / DARK MODE ───────────────────────────────────── */
+  function isDark() { return document.documentElement.classList.contains('dark-mode'); }
+  function setMode(dark) {
+    var root = document.documentElement;
+    root.classList.toggle('dark-mode', dark);
+    root.classList.toggle('light-mode', !dark);
+    store.set('rm-dark', dark ? '1' : '0');
+    var btn = qs('#rm-mode-toggle');
+    if (btn) btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+  }
+  function initDarkMode() {
+    if (qs('#rm-mode-toggle')) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'rm-mode-toggle';
+    btn.className = 'rm-plain';
+    btn.title = RM_I18N.t('toggleDark');
+    btn.setAttribute('aria-label', RM_I18N.t('darkMode'));
+    btn.setAttribute('aria-pressed', isDark() ? 'true' : 'false');
+    document.body.appendChild(btn);
+    btn.addEventListener('click', function () {
+      // Remember what this mode had, then switch to the scheme last used in the other one
+      rememberModeScheme(isDark(), findScheme(currentSchemeId()));
+      var nowDark = !isDark();
+      setMode(nowDark);
+      var scheme = modeScheme(nowDark);
+      applyScheme(scheme.id);
+      window.rmToast(RM_I18N.t(nowDark ? 'darkMode' : 'lightMode') + ' — ' + scheme.name, 'info', 2000);
+    });
+    // Follow the OS while the user has not chosen
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+        if (store.get('rm-dark') === null && !currentSchemeId()) {
+          setMode(e.matches);
+          store.del('rm-dark');
+        }
+      });
+    }
+  }
+
+  /* ── COLOUR SCHEMES ──────────────────────────────────────── */
+  // Palettes live in schemes.css; swatch = [background, text, accent].
+  // dark: null keeps whatever light/dark state the user already has.
+  // The account menu shows the RECENT_MAX most recently used schemes; the full
+  // picker is on My account. Everything is per browser (localStorage), like dark mode.
+  // The last scheme used in each mode is kept (rm-scheme-dark / rm-scheme-light), so
+  // the dark-mode toggle switches between the user's dark and light scheme.
+  var SCHEMES = [
+    { id: '', name: 'Modern', dark: null, swatch: ['#F0F4F8', '#0F1923', '#0891B2'] },
+    // @schemes:begin — generated by src/gen-schemes.py, do not edit
+    { id: 'ayu-dark', name: 'Ayu Dark', dark: true, swatch: ['#0A0E14', '#B3B1AD', '#59C2FF'] },
+    { id: 'ayu-mirage', name: 'Ayu Mirage', dark: true, swatch: ['#1F2430', '#CCCAC2', '#6DCBFA'] },
+    { id: 'catppuccin-macchiato', name: 'Catppuccin Macchiato', dark: true, swatch: ['#24273A', '#CAD3F5', '#8AADF4'] },
+    { id: 'catppuccin-mocha', name: 'Catppuccin Mocha', dark: true, swatch: ['#1E1E2E', '#CDD6F4', '#89B4FA'] },
+    { id: 'dracula', name: 'Dracula', dark: true, swatch: ['#282A36', '#F8F8F2', '#C098F9'] },
+    { id: 'everforest-dark', name: 'Everforest Dark', dark: true, swatch: ['#2D353B', '#E5DDCC', '#85BEB7'] },
+    { id: 'github-dark', name: 'GitHub Dark', dark: true, swatch: ['#101216', '#A8AFB6', '#6CA4F8'] },
+    { id: 'github-dark-dimmed', name: 'GitHub Dark Dimmed', dark: true, swatch: ['#22272E', '#BDC8D2', '#64A5F6'] },
+    { id: 'gruvbox-dark', name: 'Gruvbox Dark', dark: true, swatch: ['#282828', '#EBDBB2', '#D79921'] },
+    { id: 'kanagawa-wave', name: 'Kanagawa Wave', dark: true, swatch: ['#1F1F28', '#DCD7BA', '#7E9CD8'] },
+    { id: 'material-ocean', name: 'Material Ocean', dark: true, swatch: ['#0F111A', '#ABAEB9', '#82AAFF'] },
+    { id: 'monokai-pro', name: 'Monokai Pro', dark: true, swatch: ['#2D2A2E', '#FCFCFA', '#FC9867'] },
+    { id: 'nord', name: 'Nord', dark: true, swatch: ['#2E3440', '#D8DEE9', '#88C0D0'] },
+    { id: 'one-dark', name: 'One Dark', dark: true, swatch: ['#282C34', '#CDD1D9', '#61AFEF'] },
+    { id: 'ros-pine', name: 'Rosé Pine', dark: true, swatch: ['#191724', '#E0DEF4', '#C4A7E7'] },
+    { id: 'ros-pine-moon', name: 'Rosé Pine Moon', dark: true, swatch: ['#232136', '#E0DEF4', '#C4A7E7'] },
+    { id: 'tokyo-night', name: 'Tokyo Night', dark: true, swatch: ['#1A1B26', '#C0CAF5', '#7AA2F7'] },
+    { id: 'ayu-light', name: 'Ayu Light', dark: false, swatch: ['#F8F9FA', '#4E5257', '#2573A9'] },
+    { id: 'catppuccin-latte', name: 'Catppuccin Latte', dark: false, swatch: ['#EFF1F5', '#4C4F69', '#1C61E9'] },
+    { id: 'everforest-light', name: 'Everforest Light', dark: false, swatch: ['#FDF6E3', '#4A555B', '#2E769E'] },
+    { id: 'github-light', name: 'GitHub Light', dark: false, swatch: ['#FFFFFF', '#1F2328', '#0969DA'] },
+    { id: 'gruvbox-light', name: 'Gruvbox Light', dark: false, swatch: ['#FBF1C7', '#3C3836', '#3B7174'] },
+    { id: 'kanagawa-lotus', name: 'Kanagawa Lotus', dark: false, swatch: ['#F2ECBC', '#4C4C5A', '#4D699B'] },
+    { id: 'one-light', name: 'One Light', dark: false, swatch: ['#F8F8F8', '#2A2B32', '#315EEE'] },
+    { id: 'ros-pine-dawn', name: 'Rosé Pine Dawn', dark: false, swatch: ['#FAF4ED', '#534E73', '#7A6890'] },
+    { id: 'solarized-light', name: 'Solarized Light', dark: false, swatch: ['#FCF4DC', '#42535A', '#1F70BD'] },
+    { id: 'tokyo-night-day', name: 'Tokyo Night Day', dark: false, swatch: ['#E1E2E7', '#264386', '#225EAF'] },
+    // @schemes:end
+  ];
+  var RECENT_MAX = 4;
+  var RECENT_DEFAULT = ['', 'dracula', 'nord', 'github-light'];
+
+  // Any of Gogh's ~1250 palettes, picked on My account. Its --s-* values are computed
+  // in the browser (buildGoghScheme) and set inline on <html>; only one at a time.
+  var GOGH_ID = 'gogh';
+  var S_VARS = ['--s-bg', '--s-fg', '--s-muted', '--s-accent', '--s-on-accent',
+                '--s-red', '--s-green', '--s-yellow', '--s-blue'];
+
+  function goghScheme() {
+    var g = null;
+    try { g = JSON.parse(store.get('rm-scheme-gogh')); } catch (e) {}
+    return g && g.vars ? { id: GOGH_ID, name: g.name, dark: g.dark, swatch: g.swatch, gogh: g } : null;
+  }
+
+  function findScheme(id) {
+    if (id === GOGH_ID) return goghScheme();
+    return SCHEMES.filter(function (s) { return s.id === id; })[0];
+  }
+
+  function schemesSupported() {
+    return !!(window.CSS && CSS.supports('color', 'color-mix(in srgb, red, white)'));
+  }
+
+  function currentSchemeId() {
+    return document.documentElement.getAttribute('data-scheme') || '';
+  }
+
+  function recentSchemeIds() {
+    var ids = null;
+    try { ids = JSON.parse(store.get('rm-scheme-recent')); } catch (e) {}
+    if (!Array.isArray(ids)) ids = RECENT_DEFAULT;
+    // Current first, then history, then defaults to fill up — known ids only
+    var out = [];
+    [currentSchemeId()].concat(ids, RECENT_DEFAULT).forEach(function (id) {
+      if (out.length < RECENT_MAX && out.indexOf(id) === -1 && findScheme(id)) out.push(id);
+    });
+    return out;
+  }
+
+  function rememberScheme(id) {
+    var ids = [id].concat(recentSchemeIds().filter(function (x) { return x !== id; }));
+    try { store.set('rm-scheme-recent', JSON.stringify(ids.slice(0, RECENT_MAX))); } catch (e) {}
+  }
+
+  function modeKey(dark) { return dark ? 'dark' : 'light'; }
+
+  // Store scheme as the one to come back to in the given mode
+  function rememberModeScheme(dark, scheme) {
+    if (!scheme) return;
+    try {
+      store.set('rm-scheme-' + modeKey(dark), scheme.id);
+      if (scheme.gogh) store.set('rm-scheme-gogh-' + modeKey(dark), JSON.stringify(scheme.gogh));
+    } catch (e) {}
+  }
+
+  // Scheme last used in the given mode; Modern when none, or when it no longer fits that mode
+  function modeScheme(dark) {
+    var id = store.get('rm-scheme-' + modeKey(dark)) || '';
+    if (id === GOGH_ID) {
+      var g = store.get('rm-scheme-gogh-' + modeKey(dark));
+      if (!g) return SCHEMES[0];
+      try { store.set('rm-scheme-gogh', g); } catch (e) {}
+    }
+    var scheme = findScheme(id);
+    return scheme && (scheme.dark === null || scheme.dark === dark) ? scheme : SCHEMES[0];
+  }
+
+  function applyScheme(id) {
+    var root = document.documentElement;
+    var scheme = findScheme(id) || SCHEMES[0];
+    S_VARS.forEach(function (k) { root.style.removeProperty(k); });
+    if (scheme.gogh) {
+      Object.keys(scheme.gogh.vars).forEach(function (k) { root.style.setProperty(k, scheme.gogh.vars[k]); });
+    }
+    if (scheme.id) {
+      root.setAttribute('data-scheme', scheme.id);
+      store.set('rm-scheme', scheme.id);
+    } else {
+      root.removeAttribute('data-scheme');
+      store.del('rm-scheme');
+    }
+    if (scheme.dark !== null) {
+      setMode(scheme.dark);
+    }
+    rememberModeScheme(isDark(), scheme);
+    rememberScheme(scheme.id);
+    qsa('.rm-scheme-recent').forEach(renderRecentSchemes);
+    qsa('[data-scheme-id]').forEach(function (b) {
+      b.setAttribute('aria-checked', b.getAttribute('data-scheme-id') === scheme.id ? 'true' : 'false');
+    });
+    qsa('.rm-gogh-current').forEach(renderGoghCurrent);
+    qsa('.rm-gogh-results [data-gogh-name]').forEach(function (b) {
+      b.setAttribute('aria-checked', scheme.gogh && scheme.gogh.name === b.getAttribute('data-gogh-name') ? 'true' : 'false');
+    });
+  }
+
+  /* Gogh palette → --s-* values. Mirrors src/gen-schemes.py (same surfaces as CSS
+     section 2b, same WCAG targets, same nudging) except that nothing is dropped:
+     a low-contrast palette is pulled further and the user is told. */
+  var WHITE = [1, 1, 1], BLACK = [0, 0, 0];
+  var ACCENT_SLOTS = [[5, 'Blue'], [7, 'Cyan'], [6, 'Magenta'], [3, 'Green'], [4, 'Yellow'], [2, 'Red']];
+
+  function hexRgb(h) {
+    return [0, 2, 4].map(function (i) { return parseInt(h.replace('#', '').substr(i, 2), 16) / 255; });
+  }
+  function rgbHex(c) {
+    return '#' + c.map(function (v) {
+      var n = Math.round(Math.max(0, Math.min(1, v)) * 255);
+      return (n < 16 ? '0' : '') + n.toString(16).toUpperCase();
+    }).join('');
+  }
+  function mixRgb(a, b, pa) { return a.map(function (x, i) { return x * pa + b[i] * (1 - pa); }); }
+  function luminance(c) {
+    var l = c.map(function (v) { return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2];
+  }
+  function contrast(a, b) {
+    var x = luminance(a), y = luminance(b);
+    return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+  }
+  function worstContrast(c, bgs) {
+    return Math.min.apply(null, bgs.map(function (b) { return contrast(c, b); }));
+  }
+
+  // row = [name, dark, background, foreground, color_01 … color_08] from gogh/palettes.json
+  function buildGoghScheme(row, accentSlot) {
+    var dark = !!row[1], bg0 = hexRgb(row[2]), bg = bg0, fg0 = hexRgb(row[3]);
+    var toward = dark ? WHITE : BLACK, adjusted = [];
+    var slot = function (n) { return hexRgb(row[3 + n]); };
+    var backgrounds = function (fg) {   // --c-bg, --c-surface, --c-surface-2
+      return dark ? [bg, mixRgb(fg, bg, 0.06), mixRgb(fg, bg, 0.10)]
+                  : [bg, mixRgb(WHITE, bg, 0.65), mixRgb(WHITE, bg, 0.35)];
+    };
+    var nudge = function (c0, bgs) {     // 5% steps towards white/black until AA
+      for (var st = 0; st <= 100; st += 5) {
+        var c = mixRgb(toward, c0, st / 100);
+        if (worstContrast(c, bgs) >= 4.5 || st === 100) return { c: c, step: st };
+      }
+    };
+    // Text first; only if even pure white/black text cannot reach 7:1 (a mid-grey
+    // background, e.g. Nep) does the background move too — the generator never needs this
+    var fg, bgs, fgStep, bgStep;
+    for (bgStep = 0; bgStep <= 100; bgStep += 5) {
+      bg = mixRgb(dark ? BLACK : WHITE, bg0, bgStep / 100);
+      for (fgStep = 0; fgStep <= 100; fgStep += 5) {
+        fg = mixRgb(toward, fg0, fgStep / 100);
+        bgs = backgrounds(fg);
+        if (worstContrast(fg, bgs) >= 7) break;
+      }
+      if (worstContrast(fg, bgs) >= 7) break;
+    }
+    if (bgStep) adjusted.push('background');
+    if (fgStep) adjusted.push('text');
+    var muted;
+    for (var pct = 72; pct <= 100; pct += 2) {
+      muted = mixRgb(fg, bg, pct / 100);
+      if (worstContrast(muted, bgs) >= 4.5) break;
+    }
+    var accent = nudge(slot(accentSlot || 5), bgs), red = nudge(slot(2), bgs);
+    if (accent.step) adjusted.push('accent');
+    if (red.step) adjusted.push('red');
+    var cands = dark ? [bg, WHITE, BLACK] : [WHITE, bg, BLACK];
+    var on = cands.filter(function (c) { return contrast(c, accent.c) >= 4.5; })[0] ||
+             cands.sort(function (a, b) { return contrast(b, accent.c) - contrast(a, accent.c); })[0];
+    return {
+      name: row[0], dark: dark, accentSlot: accentSlot || 5, row: row,
+      adjusted: adjusted, strong: fgStep > 40 || bgStep > 0,
+      swatch: [rgbHex(bg), rgbHex(fg), rgbHex(accent.c)],
+      vars: {
+        '--s-bg': rgbHex(bg), '--s-fg': rgbHex(fg), '--s-muted': rgbHex(muted),
+        '--s-accent': rgbHex(accent.c), '--s-on-accent': rgbHex(on), '--s-red': rgbHex(red.c),
+        '--s-green': '#' + row[6], '--s-yellow': '#' + row[7], '--s-blue': '#' + row[8]
+      }
+    };
+  }
+  window.rmGoghScheme = buildGoghScheme;  // for tests: must match src/gen-schemes.py
+
+  function applyGoghScheme(row, accentSlot) {
+    var g = buildGoghScheme(row, accentSlot);
+    try { store.set('rm-scheme-gogh', JSON.stringify(g)); } catch (e) {}
+    applyScheme(GOGH_ID);
+  }
+
+  // palettes.json is ~50 KB gzipped, so it is fetched only when someone searches.
+  // Its digested URL comes from CSS: Propshaft rewrites url() in --rm-gogh-palettes.
+  var goghPalettes = null;
+  function loadGoghPalettes() {
+    if (goghPalettes) return goghPalettes;
+    var m = getComputedStyle(document.documentElement).getPropertyValue('--rm-gogh-palettes')
+      .match(/url\(\s*["']?([^"')]+)/);
+    goghPalettes = !m ? Promise.reject(new Error('--rm-gogh-palettes not set')) :
+      fetch(m[1], { credentials: 'same-origin' })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function (d) { return d.schemes; });
+    goghPalettes.catch(function () { goghPalettes = null; }); // let the next search retry
+    return goghPalettes;
+  }
+
+  function schemeButton(s, className) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = className;
+    b.title = s.name;
+    b.setAttribute('role', 'radio');
+    b.setAttribute('data-scheme-id', s.id);
+    b.setAttribute('aria-checked', s.id === currentSchemeId() ? 'true' : 'false');
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      applyScheme(s.id);
+    });
+    return b;
+  }
+
+  function renderRecentSchemes(row) {
+    row.innerHTML = '';
+    recentSchemeIds().forEach(function (id) {
+      var s = findScheme(id);
+      var dot = schemeButton(s, 'rm-scheme-dot');
+      dot.setAttribute('aria-label', s.name);
+      dot.style.background = 'linear-gradient(135deg, ' + s.swatch[0] + ' 50%, ' + s.swatch[2] + ' 50%)';
+      row.appendChild(dot);
+    });
+  }
+
+  // Account menu: recent schemes + link to the full picker on My account
+  function initSchemePicker() {
+    var panel = qs('#account .dropdown-content');   // core's Stimulus dropdown
+    if (!panel || qs('.rm-scheme-recent', panel)) return; // idempotent
+    if (!schemesSupported()) return;
+    var myAccount = qs('a.my-account', panel);
+
+    var sep = document.createElement('div');
+    sep.className = 'dropdown-divider';
+    var label = document.createElement('div');
+    label.className = 'rm-scheme-label';
+    label.textContent = RM_I18N.t('colourScheme');
+    var row = document.createElement('div');
+    row.className = 'rm-scheme-recent';
+    row.setAttribute('role', 'radiogroup');
+    row.setAttribute('aria-label', RM_I18N.t('recentSchemes'));
+    renderRecentSchemes(row);
+
+    panel.appendChild(sep);
+    panel.appendChild(label);
+    panel.appendChild(row);
+    if (myAccount) {
+      var more = document.createElement('a');
+      more.className = 'rm-scheme-more';
+      more.href = myAccount.getAttribute('href') + '#rm-schemes';
+      more.textContent = RM_I18N.t('allSchemes');
+      panel.appendChild(more);
+    }
+  }
+
+  function schemePreview(swatch) {
+    var pv = document.createElement('span');
+    pv.className = 'rm-scheme-preview';
+    pv.setAttribute('aria-hidden', 'true');
+    pv.style.setProperty('--p-bg', swatch[0]);
+    pv.style.setProperty('--p-fg', swatch[1]);
+    pv.style.setProperty('--p-accent', swatch[2]);
+    pv.innerHTML = '<i></i><i></i><i></i>';
+    return pv;
+  }
+
+  // Current Gogh pick: its name, an accent chooser and what was changed for contrast
+  function renderGoghCurrent(el) {
+    el.innerHTML = '';
+    var cur = findScheme(currentSchemeId());
+    if (!cur || !cur.gogh) { el.hidden = true; return; }
+    el.hidden = false;
+    var g = cur.gogh;
+    var title = document.createElement('div');
+    title.className = 'rm-gogh-title';
+    title.textContent = g.name;
+    el.appendChild(title);
+    var row = document.createElement('div');
+    row.className = 'rm-scheme-recent rm-gogh-accents';
+    row.setAttribute('role', 'radiogroup');
+    row.setAttribute('aria-label', RM_I18N.t('accentColour'));
+    ACCENT_SLOTS.forEach(function (a) {
+      var built = buildGoghScheme(g.row, a[0]);
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'rm-scheme-dot';
+      dot.title = RM_I18N.t('accent', { name: a[1] });
+      dot.setAttribute('role', 'radio');
+      dot.setAttribute('aria-label', RM_I18N.t('accent', { name: a[1] }));
+      dot.setAttribute('aria-checked', a[0] === g.accentSlot ? 'true' : 'false');
+      dot.style.background = built.vars['--s-accent'];
+      dot.addEventListener('click', function () { applyGoghScheme(g.row, a[0]); });
+      row.appendChild(dot);
+    });
+    el.appendChild(row);
+    // Red is nudged for most palettes and nobody notices; say so only for what shows
+    var shown = g.adjusted.filter(function (a) { return a !== 'red'; });
+    if (shown.length) {
+      var note = document.createElement('p');
+      note.className = 'rm-scheme-hint rm-gogh-note';
+      note.textContent = (g.strong ? RM_I18N.t('lowContrastStrong') :
+        RM_I18N.t('adjustedForReadability')) + ' (' + shown.join(', ') + ').';
+      el.appendChild(note);
+    }
+  }
+
+  function goghSearch() {
+    var wrap = document.createElement('div');
+    wrap.className = 'rm-gogh';
+    var head = document.createElement('div');
+    head.className = 'rm-scheme-group';
+    head.textContent = RM_I18N.t('anyGogh');
+    var input = document.createElement('input');
+    input.type = 'search';
+    input.className = 'rm-gogh-search';
+    input.placeholder = RM_I18N.t('searchGoghPlaceholder');
+    input.setAttribute('aria-label', RM_I18N.t('searchGogh'));
+    var status = document.createElement('p');
+    status.className = 'rm-scheme-hint rm-gogh-status';
+    status.setAttribute('aria-live', 'polite');
+    var current = document.createElement('div');
+    current.className = 'rm-gogh-current';
+    var results = document.createElement('div');
+    results.className = 'rm-scheme-grid rm-gogh-results';
+    results.setAttribute('role', 'radiogroup');
+    results.setAttribute('aria-label', RM_I18N.t('matchingGogh'));
+    [head, current, input, status, results].forEach(function (n) { wrap.appendChild(n); });
+    renderGoghCurrent(current);
+
+    var timer = null;
+    input.addEventListener('input', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        var q = input.value.trim().toLowerCase();
+        if (!q) { results.innerHTML = ''; status.textContent = ''; return; }
+        if (!goghPalettes) status.textContent = RM_I18N.t('loading');
+        loadGoghPalettes().then(function (rows) {
+          if (input.value.trim().toLowerCase() !== q) return; // a newer search is running
+          // Swap the old results out only now, so the list does not flash empty per keystroke
+          results.innerHTML = '';
+          var hits = rows.filter(function (r) { return r[0].toLowerCase().indexOf(q) !== -1; });
+          var cur = goghScheme();
+          hits.slice(0, 24).forEach(function (r) {
+            var built = buildGoghScheme(r, 5);
+            var card = document.createElement('button');
+            card.type = 'button';
+            card.className = 'rm-scheme-card';
+            card.title = r[0] + ' (' + RM_I18N.t(r[1] ? 'dark' : 'light') + ')';
+            card.setAttribute('role', 'radio');
+            card.setAttribute('data-gogh-name', r[0]);
+            card.setAttribute('aria-checked', currentSchemeId() === GOGH_ID && cur && cur.name === r[0] ? 'true' : 'false');
+            card.appendChild(schemePreview(built.swatch));
+            card.appendChild(document.createTextNode(r[0]));
+            card.addEventListener('click', function () { applyGoghScheme(r, 5); });
+            results.appendChild(card);
+          });
+          status.textContent = hits.length === 0 ? RM_I18N.t('noSchemeMatch', { query: input.value.trim() }) :
+            hits.length > 24 ? RM_I18N.t('showingMatches', { n: hits.length }) :
+            hits.length === 1 ? RM_I18N.t('oneMatch') : RM_I18N.t('manyMatches', { n: hits.length });
+        }, function () {
+          status.textContent = RM_I18N.t('goghLoadFailed');
+        });
+      }, 150);
+    });
+    return wrap;
+  }
+
+  // My account: sidebar on the left (default) or right — desktop only, per browser
+  function initSidebarSettings() {
+    if (!document.body.classList.contains('controller-my') ||
+        !document.body.classList.contains('action-account')) return;
+    if (qs('#rm-layout')) return; // idempotent
+    var prefs = qs('#pref_comments_sorting');
+    var prefsBox = prefs && prefs.closest('fieldset');
+    if (!prefsBox) return;
+
+    var box = document.createElement('fieldset');
+    box.className = 'box';
+    box.id = 'rm-layout';
+    var legend = document.createElement('legend');
+    legend.textContent = RM_I18N.t('sidebarPosition');
+    box.appendChild(legend);
+    var row = document.createElement('div');
+    row.className = 'rm-side-options';
+    row.setAttribute('role', 'radiogroup');
+    row.setAttribute('aria-label', RM_I18N.t('sidebarPosition'));
+    var current = document.documentElement.getAttribute('data-sidebar') === 'right' ? 'right' : 'left';
+    [['left', RM_I18N.t('left')], ['right', RM_I18N.t('right')]].forEach(function (o) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'rm-side-option';
+      b.setAttribute('role', 'radio');
+      b.setAttribute('data-side', o[0]);
+      b.setAttribute('aria-checked', o[0] === current ? 'true' : 'false');
+      b.innerHTML = '<span class="rm-side-preview rm-side-' + o[0] + '" aria-hidden="true"><i></i><b></b></span>';
+      b.appendChild(document.createTextNode(o[1]));
+      b.addEventListener('click', function () {
+        if (o[0] === 'right') document.documentElement.setAttribute('data-sidebar', 'right');
+        else document.documentElement.removeAttribute('data-sidebar');
+        try { store.set('rm-sidebar-side', o[0]); } catch (e) {}
+        qsa('.rm-side-option').forEach(function (x) {
+          x.setAttribute('aria-checked', x.getAttribute('data-side') === o[0] ? 'true' : 'false');
+        });
+      });
+      row.appendChild(b);
+    });
+    box.appendChild(row);
+    var hint = document.createElement('p');
+    hint.className = 'rm-scheme-hint';
+    hint.textContent = RM_I18N.t('desktopSidebar');
+    box.appendChild(hint);
+    prefsBox.parentNode.insertBefore(box, prefsBox.nextSibling);
+  }
+
+  // My account: every scheme as a preview card, next to Redmine's own Preferences
+  function initSchemeSettings() {
+    if (!document.body.classList.contains('controller-my') ||
+        !document.body.classList.contains('action-account')) return;
+    if (qs('#rm-schemes')) return; // idempotent
+    var prefs = qs('#pref_comments_sorting');
+    var prefsBox = prefs && prefs.closest('fieldset');
+    if (!prefsBox) return;
+
+    var box = document.createElement('fieldset');
+    box.className = 'box';
+    box.id = 'rm-schemes';
+    var legend = document.createElement('legend');
+    legend.textContent = RM_I18N.t('colourScheme');
+    box.appendChild(legend);
+
+    if (!schemesSupported()) {
+      var na = document.createElement('p');
+      na.className = 'rm-scheme-hint';
+      na.textContent = RM_I18N.t('noColorMix');
+      box.appendChild(na);
+    } else {
+      [['defaultSchemes', null], ['darkSchemes', true], ['lightSchemes', false]].forEach(function (g) {
+        var list = SCHEMES.filter(function (s) { return g[1] === null ? s.dark === null : s.dark === g[1]; });
+        var head = document.createElement('div');
+        head.className = 'rm-scheme-group';
+        head.textContent = RM_I18N.t(g[0]);
+        var grid = document.createElement('div');
+        grid.className = 'rm-scheme-grid';
+        grid.setAttribute('role', 'radiogroup');
+        grid.setAttribute('aria-label', RM_I18N.t('colourSchemes', { name: RM_I18N.t(g[0]) }));
+        list.forEach(function (s) {
+          var card = schemeButton(s, 'rm-scheme-card');
+          card.appendChild(schemePreview(s.swatch));
+          card.appendChild(document.createTextNode(s.name));
+          grid.appendChild(card);
+        });
+        box.appendChild(head);
+        box.appendChild(grid);
+      });
+      box.appendChild(goghSearch());
+      var hint = document.createElement('p');
+      hint.className = 'rm-scheme-hint';
+      hint.textContent = RM_I18N.t('schemesHint');
+      box.appendChild(hint);
+    }
+    prefsBox.parentNode.insertBefore(box, prefsBox.nextSibling);
+    if (location.hash === '#rm-schemes') box.scrollIntoView();
+  }
+
+
+  /* ── TOASTS ──────────────────────────────────────────────── */
+  var toastEl = null;
+
+  function getToastContainer() {
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.id = 'rm-toast-container';
+      document.body.appendChild(toastEl);
+    }
+    return toastEl;
+  }
+
+  window.rmToast = function (message, type, duration) {
+    type     = type     || 'info';
+    duration = duration === undefined ? 3000 : duration;
+    var icons = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+
+    var toast = document.createElement('div');
+    toast.className = 'rm-toast rm-toast-' + type;
+    var iconSpan = document.createElement('span');
+    iconSpan.className = 'rm-toast-icon';
+    iconSpan.textContent = icons[type] || icons.info;
+    var textSpan = document.createElement('span');
+    textSpan.textContent = message;
+    toast.appendChild(iconSpan);
+    toast.appendChild(textSpan);
+
+    getToastContainer().appendChild(toast);
+
+    setTimeout(function () {
+      toast.classList.add('rm-toast-out');
+      setTimeout(function () {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 220);
+    }, duration);
+  };
+
+  /* ── COLLAPSIBLE SECTIONS ────────────────────────────────── */
+  function makeCollapsible(sectionId, label) {
+    var section = document.getElementById(sectionId);
+    if (!section) return;
+    // Scope to main content — sidebar-hosted sections (e.g. sidebar #watchers)
+    // have their own spatial grouping and layout assumptions that the wrapper
+    // breaks (Add link, delete icons, new-watcher form).
+    if (!section.closest('#content')) return;
+
+    var heading = qs('h3, h4, p strong, .subtitle', section);
+    var title   = label || (heading ? heading.textContent.trim() : sectionId);
+    var key     = 'rm-open-' + sectionId;
+    var isOpen  = store.get(key) !== '0';
+
+    // Build header as button for keyboard + screen reader support
+    var header = document.createElement('button');
+    header.type = 'button';
+    header.className = 'rm-collapsible-header' + (isOpen ? '' : ' is-collapsed');
+    header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+    var titleSpan = document.createElement('span');
+    titleSpan.style.cssText = 'font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-text-subtle)';
+    titleSpan.textContent = title;
+    var toggleSpan = document.createElement('span');
+    toggleSpan.className = 'rm-collapsible-toggle';
+    toggleSpan.textContent = '▼';
+    toggleSpan.setAttribute('aria-hidden', 'true');
+    header.appendChild(titleSpan);
+    header.appendChild(toggleSpan);
+
+    // Wrap existing children in body
+    var body = document.createElement('div');
+    body.className = 'rm-collapsible-body' + (isOpen ? '' : ' is-collapsed');
+    body.id = 'rm-collapsible-body-' + sectionId;
+    header.setAttribute('aria-controls', body.id);
+    while (section.firstChild) body.appendChild(section.firstChild);
+
+    section.appendChild(header);
+    section.appendChild(body);
+
+    header.addEventListener('click', function () {
+      var nowCollapsed = header.classList.toggle('is-collapsed');
+      body.classList.toggle('is-collapsed', nowCollapsed);
+      header.setAttribute('aria-expanded', nowCollapsed ? 'false' : 'true');
+      store.set(key, nowCollapsed ? '0' : '1');
+    });
+
+    // AJAX robustness: Redmine may re-render the section via XHR and append
+    // fresh DOM directly to #section, outside our body. Catch those and move
+    // them into .rm-collapsible-body so collapse still hides them.
+    new MutationObserver(function (muts) {
+      muts.forEach(function (m) {
+        m.addedNodes.forEach(function (node) {
+          if (node === header || node === body) return;
+          if (node.nodeType === 1 || node.nodeType === 3) body.appendChild(node);
+        });
+      });
+    }).observe(section, { childList: true });
+  }
+
+  function initCollapsible() {
+    makeCollapsible('issue_tree', RM_I18N.t('subtasks'));
+    makeCollapsible('relations',  RM_I18N.t('relatedIssues'));
+    makeCollapsible('watchers',   RM_I18N.t('watchers'));
+  }
+
+  /* ── SIDEBAR FIT: sticky only while it fits ───────────────────
+     The sidebar is sticky so it stays in view on long lists. When its content is
+     taller than the viewport that would give it a second, independent scrollbar —
+     then it scrolls with the page instead. A ResizeObserver catches content that
+     grows later (iframes loading, AJAX). */
+  function fitSidebar() {
+    var main = qs('#main'), wrap = qs('#sidebar-wrapper'), header = qs('#header');
+    if (!main || !wrap || !header) return;
+    main.classList.remove('rm-sidebar-tall');
+    var top = header.getBoundingClientRect().height + (qs('#top-menu') ? qs('#top-menu').getBoundingClientRect().height : 0);
+    var tall = window.innerWidth > 899 && wrap.scrollHeight > window.innerHeight - top - 52;
+    main.classList.toggle('rm-sidebar-tall', tall);
+  }
+  var sidebarFitObserver = null;  // kept referenced: an unreferenced observer can be collected
+  function initSidebarFit() {
+    var wrap = qs('#sidebar-wrapper');
+    if (!wrap) return;
+    fitSidebar();
+    window.addEventListener('resize', fitSidebar);
+    if (window.ResizeObserver) {
+      sidebarFitObserver = new ResizeObserver(function () { fitSidebar(); });
+      sidebarFitObserver.observe(wrap);
+    }
+  }
+
+  /* ── LIST HEADERS ALIGNED WITH THEIR COLUMNS ─────────────────
+     The theme left-aligns every table.list header, while core centres most cells (and
+     right-aligns hours), so "Open / Closed / Total", "#", "Status"… sat left of their
+     numbers. Many headers carry no class saying how their column is aligned, so each
+     header copies the alignment of the first full row's cell below it. Re-run after AJAX
+     (My page blocks, etc.). */
+  function alignListHeaders() {
+    qsa('table.list').forEach(function (table) {
+      var head = table.tHead && table.tHead.rows[table.tHead.rows.length - 1];
+      if (!head) return;
+      var ths = head.cells, row = null;
+      for (var i = 0; i < table.tBodies.length && !row; i++) {
+        var rows = table.tBodies[i].rows;
+        for (var j = 0; j < rows.length; j++) {
+          if (rows[j].cells.length === ths.length && !rows[j].classList.contains('group')) { row = rows[j]; break; }
+        }
+      }
+      if (!row) return;
+      for (var k = 0; k < ths.length; k++) {
+        var a = getComputedStyle(row.cells[k]).textAlign;
+        a = a === 'start' ? 'left' : a === 'end' ? 'right' : a.replace('-webkit-', '');
+        ths[k].style.setProperty('text-align', a, 'important');
+      }
+    });
+  }
+  function initListHeaders() {
+    alignListHeaders();
+    if (window.jQuery) window.jQuery(document).ajaxComplete(function () { setTimeout(alignListHeaders, 0); });
+  }
+
+  /* ── SELECTION CARET ───────────────────────────────────────
+     While text is selected in a field, browsers draw no caret, so you cannot tell which
+     end of the selection Shift+arrows will move. A thin blinking line in the accent
+     colour marks that end (selectionDirection 'backward' → start, else end), placed with
+     a hidden mirror of the field (same font, padding, width and wrapping). Removed as
+     soon as the selection collapses, so the browser's own caret takes over again. */
+  var SEL_CARET_TYPES = /^(text|search|email|url|tel|number)$/;
+  var SEL_MIRROR_PROPS = ['boxSizing', 'width', 'borderTopWidth', 'borderRightWidth', 'borderBottomWidth',
+    'borderLeftWidth', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'fontStyle', 'fontVariant',
+    'fontWeight', 'fontStretch', 'fontSize', 'lineHeight', 'fontFamily', 'textAlign', 'textTransform',
+    'textIndent', 'letterSpacing', 'wordSpacing', 'tabSize', 'overflowWrap', 'wordBreak'];
+  var selCaret = null, selMirror = null;
+  function selCaretField(el) {
+    if (!el) return null;
+    if (el.tagName === 'TEXTAREA') return el;
+    if (el.tagName === 'INPUT' && SEL_CARET_TYPES.test(el.type || 'text')) return el;
+    return null;
+  }
+  function hideSelCaret() { if (selCaret) selCaret.style.display = 'none'; }
+  function updateSelCaret() {
+    var el = selCaretField(document.activeElement);
+    var start, end;
+    try { start = el && el.selectionStart; end = el && el.selectionEnd; } catch (e) { start = end = null; }
+    if (!el || start == null || start === end) { hideSelCaret(); return; }
+    var pos = el.selectionDirection === 'backward' ? start : end;
+    var cs = getComputedStyle(el), isArea = el.tagName === 'TEXTAREA';
+    if (!selMirror) {
+      selMirror = document.createElement('div');
+      selMirror.setAttribute('aria-hidden', 'true');
+      selMirror.style.cssText = 'position:absolute;top:0;left:-9999px;visibility:hidden;overflow:hidden;';
+      document.body.appendChild(selMirror);
+    }
+    SEL_MIRROR_PROPS.forEach(function (prop) { selMirror.style[prop] = cs[prop]; });
+    selMirror.style.whiteSpace = isArea ? 'pre-wrap' : 'pre';
+    if (!isArea) selMirror.style.width = 'auto';
+    // text before the caret, a one-character marker, then the rest (it decides the wrapping)
+    selMirror.textContent = el.value.substring(0, pos);
+    var mark = document.createElement('span');
+    mark.textContent = el.value.charAt(pos) && el.value.charAt(pos) !== '\n' ? el.value.charAt(pos) : '.';
+    selMirror.appendChild(mark);
+    selMirror.appendChild(document.createTextNode(el.value.substring(pos + 1)));
+    var lineH = mark.getBoundingClientRect().height || parseFloat(cs.fontSize) * 1.3;
+    var r = el.getBoundingClientRect();
+    // offsetLeft/Top are measured from the mirror's padding edge; the field's rect is its border box
+    var x = mark.offsetLeft + parseFloat(cs.borderLeftWidth) - el.scrollLeft;
+    var y = mark.offsetTop + parseFloat(cs.borderTopWidth) - el.scrollTop;
+    // only while the caret's spot is inside the field's visible box
+    var inside = x >= 0 && x <= r.width && y + lineH > 0 && y < r.height;
+    if (!selCaret) {
+      selCaret = document.createElement('div');
+      selCaret.id = 'rm-sel-caret';
+      selCaret.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(selCaret);
+    }
+    if (!inside) { hideSelCaret(); return; }
+    selCaret.style.display = 'block';
+    selCaret.style.left = (r.left + window.scrollX + x - 1) + 'px';
+    selCaret.style.top = (r.top + window.scrollY + y) + 'px';
+    selCaret.style.height = Math.round(lineH) + 'px';
+    // restart the blink so the line is visible right after every move
+    selCaret.style.animation = 'none'; void selCaret.offsetWidth; selCaret.style.animation = '';
+  }
+  function initSelectionCaret() {
+    var queued = false;
+    function schedule() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; updateSelCaret(); });
+    }
+    // for inputs and textareas selectionchange is fired at the field itself: listen in capture
+    document.addEventListener('selectionchange', schedule, true);
+    ['select', 'keyup', 'mouseup', 'input', 'focusin'].forEach(function (t) { document.addEventListener(t, schedule, true); });
+    document.addEventListener('scroll', schedule, true);   // the page or the field itself
+    document.addEventListener('focusout', hideSelCaret, true);
+    window.addEventListener('resize', schedule);
+  }
+
+  /* ── PROJECT HEADER BADGE ───────────────────────────────── */
+  function initProjectBadge() {
+    var h1 = qs('#header h1');
+    if (!h1) return;
+    var curr = qs('.current-project', h1);
+    if (!curr) return;
+    if (qs('.rm-project-badge', h1)) return; // idempotent
+    var words = (curr.textContent.match(/[\p{L}\p{N}]+/gu) || [curr.textContent]);
+    var initials = words.slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase();
+    var badge = document.createElement('span');
+    badge.className = 'rm-project-badge';
+    badge.setAttribute('aria-hidden', 'true');
+    badge.textContent = initials || '·';
+    h1.insertBefore(badge, h1.firstChild);
+  }
+
+  /* ── INIT ─────────────────────────────────────────────────── */
+  function init() {
+    initDarkMode();
+    initCollapsible();
+    initProjectBadge();
+    // A stored scheme that was since removed would leave the page without colours
+    if (currentSchemeId() && !findScheme(currentSchemeId())) applyScheme('');
+    initSchemePicker();
+    initSchemeSettings();
+    initSidebarSettings();
+    initSidebarFit();
+    initSelectionCaret();
+    initListHeaders();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+
+
+/* ============================================================
+   LOCAL CUSTOMISATIONS — project overview hero ("Vistazo moderno")
+   Replaces the plain title with a hero + KPI cards and a two-column
+   summary (issues, members, activity) on project overview pages.
+   Styles live in stylesheets/custom.css.
+   ============================================================ */
+(function () {
+  var $ = window.jQuery;
+  if (!$) { console.error('Vistazo moderno: jQuery no disponible'); return; }
+
+  function safe(name, fn) {
+    try { fn(); }
+    catch (e) { console.error('Vistazo moderno [' + name + ']:', e); }
+  }
+
+  /* ---------- Deteccion del color de acento del theme ---------- */
+  var cvs = document.createElement('canvas');
+  cvs.width = cvs.height = 1;
+  var ctx2d = cvs.getContext('2d');
+
+  // Convierte cualquier color CSS (hex, rgb, hsl, oklch...) a {r,g,b,a}
+  function toRgb(str) {
+    if (!str || !ctx2d) return null;
+    try {
+      ctx2d.clearRect(0, 0, 1, 1);
+      ctx2d.fillStyle = 'rgba(0,0,0,0)';
+      ctx2d.fillStyle = String(str).trim();
+      ctx2d.fillRect(0, 0, 1, 1);
+      var d = ctx2d.getImageData(0, 0, 1, 1).data;
+      return { r: d[0], g: d[1], b: d[2], a: d[3] / 255 };
+    } catch (e) { return null; }
+  }
+  function saturated(c) {
+    if (!c || c.a < 0.5) return false;
+    var mx = Math.max(c.r, c.g, c.b), mn = Math.min(c.r, c.g, c.b);
+    return (mx - mn) / 255 > 0.18;
+  }
+
+  function detectAccent() {
+    var cs = getComputedStyle(document.body);
+    var names = ['--rm-accent', '--c-primary', '--c-accent', '--accent', '--primary', '--color-primary',
+                 '--c-brand', '--brand', '--color-accent', '--theme-color'];
+    var i, c, v;
+    for (i = 0; i < names.length; i++) {
+      v = cs.getPropertyValue(names[i]).trim();
+      if (v) {
+        c = toRgb(v);
+        if (c && c.a > 0.5) return { c: c, src: names[i] };
+      }
+    }
+    // Plan B: muestrear colores reales de la interfaz
+    var $probe = $('<a href="#" class="vz-probe" style="display:none">x</a>').appendTo('#content');
+    var linkColor = getComputedStyle($probe[0]).color;
+    $probe.remove();
+    c = toRgb(linkColor);
+    if (saturated(c)) return { c: c, src: 'color de los links' };
+
+    var $sel = $('#main-menu a.selected').first();
+    if ($sel.length) {
+      var s = getComputedStyle($sel[0]);
+      var tries = [s.color, s.borderBottomColor, s.backgroundColor];
+      for (i = 0; i < tries.length; i++) {
+        c = toRgb(tries[i]);
+        if (saturated(c)) return { c: c, src: 'pestana seleccionada del menu' };
+      }
+    }
+    return null;
+  }
+
+  var lastAccent = '';
+  function applyAccent(logIt) {
+    var found = detectAccent();
+    if (!found) {
+      if (logIt) console.warn('Vistazo moderno: no se pudo detectar el color de acento, se usa el del CSS');
+      return;
+    }
+    var c = found.c;
+    var rgb = 'rgb(' + c.r + ',' + c.g + ',' + c.b + ')';
+    if (rgb === lastAccent) return;
+    lastAccent = rgb;
+    var lum = 0.299 * c.r + 0.587 * c.g + 0.114 * c.b;
+    document.body.style.setProperty('--vz-accent', rgb);
+    document.body.style.setProperty('--vz-on-accent', lum > 160 ? '#111' : '#fff');
+  }
+
+  function init() {
+    if (!$('body').is('.controller-projects.action-show')) {
+      return;
+    }
+    if ($('.vz-hero').length) return;
+
+    safe('acento', function () {
+      applyAccent(true);
+      // Si cambia la paleta o el modo claro/oscuro sin recargar, se vuelve a detectar
+      var timer = null;
+      var obs = new MutationObserver(function () {
+        clearTimeout(timer);
+        timer = setTimeout(function () { applyAccent(true); }, 80);
+      });
+      obs.observe(document.documentElement, { attributes: true });
+      obs.observe(document.body, { attributes: true });
+    });
+
+    var ident = location.pathname.split('/')[2];
+    var proj = '/projects/' + ident;
+    var esc = function (s) { return $('<div>').text(s == null ? '' : s).html(); };
+    var svg = function (p) {
+      return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>';
+    };
+    var ico = {
+      open: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>',
+      closed: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>',
+      total: '<path d="M5 7h14M5 12h14M5 17h14"/>',
+      pie: '<path d="M12 3a9 9 0 1 0 9 9h-9z"/>',
+      users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.6 0 4.5 1.8 4.5 4.5"/>',
+      plus: '<path d="M12 5v14M5 12h14"/>'
+    };
+
+    // Shared helpers for the operational stats (chips, stalled, settings).
+    var pad2 = function (n) { return (n < 10 ? '0' : '') + n; };
+    var isoDay = function (d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); };
+    var daysAgo = function (n) { return isoDay(new Date(Date.now() - n * 864e5)); };
+    var queryUrl = function (filters) {
+      var parts = ['set_filter=1'];
+      filters.forEach(function (f) {
+        parts.push('f%5B%5D=' + encodeURIComponent(f[0]));
+        parts.push('op%5B' + encodeURIComponent(f[0]) + '%5D=' + encodeURIComponent(f[1]));
+        if (f[2] != null) parts.push('v%5B' + encodeURIComponent(f[0]) + '%5D%5B%5D=' + encodeURIComponent(f[2]));
+      });
+      return proj + '/issues?' + parts.join('&');
+    };
+    var setOpValue = function (id, value) {
+      var $chip = $('#vz-op-' + id);
+      if (!$chip.length) return;
+      $chip.find('b').text(value == null ? '\u2014' : value);
+      $chip.toggleClass('is-zero', value === 0);
+    };
+
+    // Per-project, per-browser Vistazo settings (panel in block 8).
+    var vzKey = 'rm-vz-stats:' + ident;
+    var vzDefault = {
+      kpis: true, donut: true, unassigned: true, overdue: true, nodue: true,
+      'new': true, closed: true, mttr: true, stalled: true, stalledDays: 7,
+      attnLate: true, attnSoon: true, attnStalled: true, issueCards: true,
+      dueLate: true, dueWeek: true, dueMonth: true
+    };
+    var vzConf = (function () {
+      var saved = {};
+      try { saved = JSON.parse(localStorage.getItem(vzKey) || '{}') || {}; } catch (e) { saved = {}; }
+      var c = {};
+      Object.keys(vzDefault).forEach(function (k) {
+        c[k] = saved.hasOwnProperty(k) ? saved[k] : vzDefault[k];
+      });
+      c.stalledDays = parseInt(c.stalledDays, 10);
+      if (!(c.stalledDays >= 1 && c.stalledDays <= 120)) c.stalledDays = vzDefault.stalledDays;
+      return c;
+    })();
+    var vzSave = function () {
+      try { localStorage.setItem(vzKey, JSON.stringify(vzConf)); } catch (e) {}
+    };
+    var vzApply = function () {
+      $('.vz-kpis').first().toggleClass('is-hidden', !vzConf.kpis);
+      $('#vz-chart').toggleClass('is-hidden', !vzConf.donut);
+
+      var anyOp = false;
+      ['unassigned', 'overdue', 'nodue', 'new', 'closed', 'mttr', 'stalled'].forEach(function (id) {
+        var show = !!vzConf[id];
+        $('#vz-op-' + id).toggleClass('is-hidden', !show);
+        if (show) anyOp = true;
+      });
+      $('.vz-ops').first().toggleClass('is-hidden', !anyOp);
+
+      var anyAttn = false;
+      [['late', 'attnLate'], ['soon', 'attnSoon'], ['stalled', 'attnStalled']].forEach(function (pair) {
+        var show = !!vzConf[pair[1]];
+        $('#vz-attn-' + pair[0]).toggleClass('is-hidden', !show);
+        if (show) anyAttn = true;
+      });
+      $('#vz-attn').toggleClass('is-hidden', !anyAttn);
+    };
+
+    var open = 0, closed = 0, total = 0;
+    var members = $('.members.box a.user').length;
+    var hasIssues = $('table.issue-report').length > 0;
+
+    /* ---------- 1) Columna % cerradas ---------- */
+    safe('tabla', function () {
+      var $table = $('table.issue-report');
+      $table.find('thead tr').append('<th>' + RM_I18N.t('percentClosed') + '</th>');
+      $table.find('tbody tr').each(function () {
+        var td = $(this).find('td');
+        var o = parseInt($(td[1]).text(), 10) || 0;
+        var c = parseInt($(td[2]).text(), 10) || 0;
+        var t = parseInt($(td[3]).text(), 10) || 0;
+        open += o; closed += c; total += t;
+        var pct = t ? Math.round(c * 100 / t) : 0;
+        var href = $(td[2]).find('a').attr('href') || '#';
+        var label = t ? '<a href="' + href + '">' + pct + '%</a>' : '<span>\u2014</span>';
+        $(this).append(
+          '<td class="vz-prog"><div class="vz-prog-in">' +
+          '<div class="vz-bar" title="' + RM_I18N.t('percentClosedTitle', { n: pct }) + '"><span style="width:' + pct + '%"></span></div>' +
+          label + '</div></td>');
+      });
+    });
+
+    /* ---------- 2) Hero + KPIs ---------- */
+    safe('hero', function () {
+      var pctAll = total ? Math.round(closed * 100 / total) : 0;
+      var name = $('h1 .current-project').first().text() || ident;
+      var $h2 = $('#content > h2').first();
+
+      var link = function (sel, fb) { return $('#main-menu ' + sel).first().attr('href') || fb; };
+      var btn = function (href, icon, text, primary) {
+        return '<a class="vz-btn' + (primary ? ' is-primary' : '') + '" href="' + href + '">' + svg(ico[icon]) + text + '</a>';
+      };
+
+      // Botones: solo los que existen en el menu del proyecto
+      var actions = '';
+      if ($('#main-menu a.new-issue-sub').length) {
+        actions += btn(link('a.new-issue-sub', proj + '/issues/new'), 'plus', RM_I18N.t('newIssue'), true);
+      }
+      if ($('#main-menu a.issues').length) {
+        actions += btn(link('a.issues', proj + '/issues'), 'total', RM_I18N.t('issues'));
+      }
+
+      var hero =
+        '<div class="vz-hero">' +
+          '<div class="vz-hero-top">' +
+            '<div class="vz-hero-main">' +
+              '<h1>' + esc(name) + '</h1>' +
+            '</div>' +
+            '<div class="vz-actions">' + actions + '</div>' +
+          '</div>' +
+        '</div>';
+
+      var kpi = function (href, icon, label, value) {
+        return '<a class="vz-kpi" href="' + href + '"><span class="vz-ico">' + svg(ico[icon]) + '</span>' +
+          '<span class="vz-txt"><small>' + label + '</small><b>' + value + '</b></span></a>';
+      };
+      var kpis = '<div class="vz-kpis">';
+      if (hasIssues) {
+        kpis +=
+          kpi(proj + '/issues?set_filter=1', 'open', RM_I18N.t('kpiOpen'), open) +
+          kpi(proj + '/issues?set_filter=1&status_id=c', 'closed', RM_I18N.t('kpiClosed'), closed) +
+          kpi(proj + '/issues?set_filter=1&status_id=*', 'total', RM_I18N.t('kpiTotal'), total) +
+          kpi(proj + '/issues/report', 'pie', RM_I18N.t('kpiComplete'), pctAll + '%');
+      }
+      kpis += kpi('#', 'users', RM_I18N.t('kpiMembers'), members) + '</div>';
+
+      $h2.after(hero + kpis);
+
+      // Mover marcador y menu de acciones del proyecto al hero (se mueven los
+      // elementos originales, asi conservan su funcionamiento)
+      var $ctx = $('#content > .contextual').first();
+      var $act = $('.vz-hero .vz-actions');
+      if ($ctx.length && $act.length) {
+        $ctx.find('a.bookmark').first().appendTo($act);
+        $ctx.children('.drdn').first().appendTo($act);
+        if (!$ctx.children().length) $ctx.hide();
+      }
+    });
+
+    /* ---------- 3) Cajas con skeleton ---------- */
+    var sk = '<div class="vz-sk"></div><div class="vz-sk w80"></div><div class="vz-sk w60"></div>';
+    var T_ATTN = RM_I18N.t('attention');
+    var T_ACT = RM_I18N.t('recentActivity');
+
+    safe('cajas', function () {
+      if (hasIssues) {
+        $('.splitcontentright').prepend(
+          '<div class="box" id="vz-attn"><h3>' + T_ATTN + '</h3>' + sk + '</div>');
+      }
+      $('.splitcontentleft').append(
+        '<div class="box" id="vz-act"><h3>' + T_ACT + '</h3>' + sk + '</div>');
+    });
+
+    /* ---------- 4) Atención (vencidas / por vencer / estancadas) ---------- */
+    var vzAttnToken = 0;
+    var vzRenderAttn = function () {
+      if (!hasIssues) return;
+      var $box = $('#vz-attn');
+      if (!$box.length) return;
+
+      var token = ++vzAttnToken;
+      var today = new Date(); today.setHours(0, 0, 0, 0);
+      var DAY = 86400000;
+
+      var get = function (qs) {
+        return fetch('/issues.json?project_id=' + encodeURIComponent(ident) + '&' + qs,
+                     { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+      };
+
+      var row = function (item) {
+        var i = item.issue;
+        var who = i.assigned_to ? i.assigned_to.name : RM_I18N.t('unassigned');
+        var prio = i.priority ? i.priority.name : '';
+        var note = item.days != null
+          ? (item.days < 0 ? RM_I18N.t('agoDays', { n: Math.abs(item.days) })
+            : item.days === 0 ? RM_I18N.t('today') : RM_I18N.t('inDays', { n: item.days }))
+          : RM_I18N.t('agoDays', { n: item.since });
+        return '<li class="' + item.cls + '">' +
+          '<a href="/issues/' + i.id + '">#' + i.id + ' ' + esc(i.subject) + '</a>' +
+          '<span>' + esc(who) + ' \u00b7 ' + esc(prio) + '</span>' +
+          '<em>' + note + '</em></li>';
+      };
+      var section = function (id, title, items, empty) {
+        var body = items.length
+          ? '<ul class="vz-list">' + items.slice(0, 4).map(row).join('') + '</ul>'
+          : '<p class="vz-empty">' + empty + '</p>';
+        return '<div class="vz-attn-sec" id="' + id + '"><h3>' + title + '</h3>' + body + '</div>';
+      };
+
+      var dueDays = function (i) {
+        return Math.round((new Date(i.due_date + 'T00:00:00') - today) / DAY);
+      };
+      var staleDays = function (i) {
+        var d = new Date((i.updated_on || '').slice(0, 10) + 'T00:00:00');
+        return Math.max(0, Math.round((today - d) / DAY));
+      };
+
+      $box.html('<h3>' + T_ATTN + '</h3>' + sk);
+
+      Promise.all([
+        get('status_id=o&due_date=%3C%3D' + daysAgo(1) + '&sort=due_date&limit=4'),
+        get('status_id=o&due_date=%3E%3C' + daysAgo(0) + '%7C' + daysAgo(-7) + '&sort=due_date&limit=4'),
+        vzConf.attnStalled
+          ? get('status_id=o&updated_on=%3C%3D' + daysAgo(vzConf.stalledDays) + '&sort=updated_on:asc&limit=4')
+          : Promise.resolve(null)
+      ])
+        .then(function (res) {
+          if (token !== vzAttnToken) return;
+          var late = (res[0].issues || []).map(function (i) {
+            return { issue: i, days: dueDays(i), cls: 'is-late' };
+          });
+          var soon = (res[1].issues || []).map(function (i) {
+            return { issue: i, days: dueDays(i), cls: 'is-soon' };
+          });
+          var stalled = res[2] ? (res[2].issues || []).map(function (i) {
+            return { issue: i, since: staleDays(i), cls: 'is-stalled' };
+          }) : [];
+
+          $box.html(
+            section('vz-attn-late', RM_I18N.t('lateTitle', { n: res[0].total_count || 0 }), late, RM_I18N.t('nothingLate')) +
+            section('vz-attn-soon', RM_I18N.t('soonTitle', { n: res[1].total_count || 0 }), soon, RM_I18N.t('nothingSoon')) +
+            section('vz-attn-stalled', RM_I18N.t('stalledTitle', { days: vzConf.stalledDays, n: res[2] ? (res[2].total_count || 0) : 0 }), stalled, RM_I18N.t('nothingStalled'))
+          );
+          vzApply();
+        })
+        .catch(function (e) {
+          console.error('Vistazo moderno [issues.json]:', e);
+          $box.html('<h3>' + T_ATTN + '</h3><p class="vz-empty">' + RM_I18N.t('loadFailed') + '</p>');
+        });
+    };
+
+    safe('atencion', function () {
+      vzRenderAttn();
+    });
+
+    /* ---------- 5) Actividad reciente ---------- */
+    safe('actividad', function () {
+      var ago = function (d) {
+        var s = Math.max(0, (Date.now() - d) / 1000);
+        if (s < 60) return RM_I18N.t('justNow');
+        var m = s / 60; if (m < 60) return RM_I18N.t('minutesAgo', { n: Math.floor(m) });
+        var h = m / 60; if (h < 24) return RM_I18N.t('hoursAgo', { n: Math.floor(h) });
+        var dd = h / 24; if (dd < 30) return RM_I18N.t('daysAgo', { n: Math.floor(dd) });
+        return d.toLocaleDateString(RM_I18N.locale);
+      };
+
+      var feed = $('link[type="application/atom+xml"]').first().attr('href') || (proj + '/activity.atom');
+      var fu = new URL(feed, location.href);
+
+      fetch(fu.pathname + fu.search, { credentials: 'same-origin' })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+        .then(function (txt) {
+          var xml = new DOMParser().parseFromString(txt, 'application/xml');
+          var entries = Array.prototype.slice.call(xml.querySelectorAll('entry')).slice(0, 8);
+          if (!entries.length) {
+            $('#vz-act').html('<h3>' + T_ACT + '</h3><p class="vz-empty">' + RM_I18N.t('noActivity') + '</p>');
+            return;
+          }
+          var items = entries.map(function (e) {
+            var title = (e.querySelector('title') || {}).textContent || '';
+            var who = (e.querySelector('author > name') || {}).textContent || '';
+            var upd = (e.querySelector('updated') || {}).textContent || '';
+            var l = e.querySelector('link');
+            var href = '#';
+            if (l) { var u = new URL(l.getAttribute('href'), location.href); href = u.pathname + u.search + u.hash; }
+            return '<li><a href="' + href + '">' + esc(title) + '</a>' +
+                   '<small>' + esc(who) + ' \u00b7 ' + ago(new Date(upd)) + '</small></li>';
+          }).join('');
+          $('#vz-act').html('<h3>' + T_ACT + '</h3><ul class="vz-act">' + items + '</ul>');
+        })
+        .catch(function (e) {
+          console.error('Vistazo moderno [activity.atom]:', e);
+          $('#vz-act').html('<h3>' + T_ACT + '</h3><p class="vz-empty">' + RM_I18N.t('activityLoadFailed') + '</p>');
+        });
+    });
+
+    /* ---------- 6) Dona: abiertas por tipo / por asignado ---------- */
+    safe('grafico', function () {
+      if (!hasIssues) return;
+      var $left = $('.splitcontentleft').first();
+      if (!$left.length) return;
+
+      var PALETTE = ['--rm-accent', '--rm-green', '--rm-blue', '--rm-yellow', '--rm-purple', '--rm-red'];
+      var MAX = 6;                 // slices before "Otros"
+      var cache = { tracker: null, assignee: null };
+
+      var box =
+        '<div class="box vz-chart-box" id="vz-chart">' +
+          '<h3>' + RM_I18N.t('openByTracker') + '</h3>' +
+          '<div class="vz-chart-switch" role="tablist" aria-label="' + RM_I18N.t('groupOpenBy') + '">' +
+            '<button type="button" class="vz-chart-tab is-active" data-mode="tracker" role="tab" aria-selected="true">' + RM_I18N.t('tracker') + '</button>' +
+            '<button type="button" class="vz-chart-tab" data-mode="assignee" role="tab" aria-selected="false">' + RM_I18N.t('assignee') + '</button>' +
+          '</div>' +
+          '<div class="vz-chart-body">' + sk + '</div>' +
+        '</div>';
+
+      function normalize(items) {
+        items = items.filter(function (it) { return it.value > 0; });
+        items.sort(function (a, b) { return b.value - a.value; });
+        if (items.length > MAX) {
+          var rest = items.slice(MAX - 1);
+          items = items.slice(0, MAX - 1);
+          items.push({ label: RM_I18N.t('others'), value: rest.reduce(function (s, it) { return s + it.value; }, 0) });
+        }
+        return items;
+      }
+
+      function render(items, emptyText) {
+        var total = items.reduce(function (s, it) { return s + it.value; }, 0);
+        var $body = $('#vz-chart .vz-chart-body');
+        if (!total) {
+          $body.html('<p class="vz-empty">' + emptyText + '</p>');
+          return;
+        }
+        var off = 0;
+        var segs = items.map(function (it, i) {
+          var pct = it.value * 100 / total;
+          var color = 'var(' + PALETTE[i % PALETTE.length] + ')';
+          var seg = '<circle class="vz-donut-seg" cx="60" cy="60" r="46" fill="none" stroke-width="14"' +
+            ' pathLength="100" stroke="' + color + '"' +
+            ' stroke-dasharray="' + pct + ' ' + (100 - pct) + '"' +
+            ' stroke-dashoffset="' + (-off) + '" transform="rotate(-90 60 60)">' +
+            '<title>' + esc(it.label) + ': ' + it.value + '</title></circle>';
+          off += pct;
+          return seg;
+        }).join('');
+        var legend = items.map(function (it, i) {
+          var pct = Math.round(it.value * 100 / total);
+          return '<li><span class="vz-dot" style="background: var(' + PALETTE[i % PALETTE.length] + ')"></span>' +
+            '<span class="vz-leg-name">' + esc(it.label) + '</span>' +
+            '<span class="vz-leg-val">' + it.value + '</span>' +
+            '<span class="vz-leg-pct">' + pct + '%</span></li>';
+        }).join('');
+        $body.html(
+          '<div class="vz-donut-wrap">' +
+            '<svg class="vz-donut" viewBox="0 0 120 120" role="img" aria-label="' + esc(RM_I18N.t('openIssuesAria', { n: total })) + '">' +
+              '<circle class="vz-donut-track" cx="60" cy="60" r="46" fill="none" stroke-width="14"/>' +
+              segs +
+              '<text class="vz-donut-total" x="60" y="58" text-anchor="middle">' + total + '</text>' +
+              '<text class="vz-donut-cap" x="60" y="72" text-anchor="middle">' + RM_I18N.t('openCaption') + '</text>' +
+            '</svg>' +
+            '<ul class="vz-legend">' + legend + '</ul>' +
+          '</div>');
+      }
+
+      // Exact counts: the overview already renders the issue report by tracker.
+      function trackerItems() {
+        var out = [];
+        $('table.issue-report tbody tr').each(function () {
+          var $cells = $(this).children('td');
+          var name = $cells.filter('.name').first().text().trim();
+          var open = parseInt($cells.eq(1).text().trim(), 10);
+          if (name && !isNaN(open)) out.push({ label: name, value: open });
+        });
+        return out;
+      }
+
+      // Per-assignee counts: Redmine's report page has them server-side (exact,
+      // all issues), so one request beats paginating the API.
+      function loadAssignees(done) {
+        if (cache.assignee) { done(cache.assignee); return; }
+        fetch(proj + '/issues/report/assigned_to', { credentials: 'same-origin' })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+          .then(function (html) {
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+            var out = [];
+            doc.querySelectorAll('table.issue-report-detailed tbody tr').forEach(function (tr) {
+              var nameCell = tr.querySelector('td.name');
+              var openCell = tr.querySelector('td:nth-last-child(3)');
+              if (!nameCell || !openCell) return;
+              var name = nameCell.textContent.trim();
+              if (/^\[ninguno\]$/i.test(name) || /^none$/i.test(name)) name = RM_I18N.t('unassigned');
+              var open = parseInt(openCell.textContent.replace(/[^\d]/g, ''), 10) || 0;
+              if (name) out.push({ label: name, value: open });
+            });
+            cache.assignee = out;
+            done(out);
+          })
+          .catch(function (e) {
+            console.error('Vistazo moderno [assigned_to]:', e);
+            $('#vz-chart .vz-chart-body').html('<p class="vz-empty">' + RM_I18N.t('reportLoadFailed') + '</p>');
+          });
+      }
+
+      function setMode(mode) {
+        $('#vz-chart .vz-chart-tab').each(function () {
+          var on = $(this).data('mode') === mode;
+          $(this).toggleClass('is-active', on).attr('aria-selected', on ? 'true' : 'false');
+        });
+        $('#vz-chart > h3').text(RM_I18N.t(mode === 'tracker' ? 'openByTracker' : 'openByAssignee'));
+        if (mode === 'tracker') {
+          render(normalize(trackerItems()), RM_I18N.t('noOpenIssues'));
+        } else {
+          $('#vz-chart .vz-chart-body').html(sk);
+          loadAssignees(function (items) { render(normalize(items), RM_I18N.t('noOpenIssues')); });
+        }
+      }
+
+      // Columna izquierda, justo debajo de la caja "Incidencias".
+      var $chart = $(box);
+      var $issues = $left.find('.issues.box').first();
+      if ($issues.length) $issues.after($chart);
+      else $left.prepend($chart);
+
+      $chart.on('click', '.vz-chart-tab', function () { setMode($(this).data('mode')); });
+      render(normalize(trackerItems()), RM_I18N.t('noOpenIssues'));
+    });
+
+    /* ---------- 7) Chips de operación (SLA / flujo) ---------- */
+    safe('operacion', function () {
+      if (!hasIssues) return;
+
+      var today = daysAgo(0);
+      var weekAgo = daysAgo(7);
+
+      var ops = [
+        { id: 'unassigned', label: RM_I18N.t('unassignedChip'),
+          href: queryUrl([['status_id', 'o'], ['assigned_to_id', '!*']]),
+          count: 'status_id=o&assigned_to_id=%21*' },
+        { id: 'overdue', label: RM_I18N.t('overdueChip'), danger: true,
+          href: queryUrl([['status_id', 'o'], ['due_date', '<=', daysAgo(1)]]),
+          count: 'status_id=o&due_date=%3C%3D' + daysAgo(1) },
+        { id: 'nodue', label: RM_I18N.t('noDueChip'),
+          href: queryUrl([['status_id', 'o'], ['due_date', '!*']]),
+          count: 'status_id=o&due_date=%21*' },
+        { id: 'new', label: RM_I18N.t('newChip'),
+          href: queryUrl([['created_on', '>=', weekAgo]]),
+          count: 'created_on=%3E=' + weekAgo },
+        { id: 'closed', label: RM_I18N.t('closedChip'),
+          href: queryUrl([['status_id', 'c'], ['updated_on', '>=', weekAgo]]),
+          count: 'status_id=c&updated_on=%3E=' + weekAgo },
+        { id: 'mttr', label: RM_I18N.t('avgCloseChip'), href: proj + '/issues/report', avg: true }
+      ];
+
+      var chips = '<div class="vz-ops" aria-label="' + RM_I18N.t('opsAria') + '">' +
+        ops.map(function (op) {
+          return '<a class="vz-op' + (op.danger ? ' is-danger' : '') + '" id="vz-op-' + op.id + '" href="' + op.href + '">' +
+            '<b>\u2014</b><span>' + op.label + '</span></a>';
+        }).join('') + '</div>';
+
+      var $kpis = $('.vz-kpis').first();
+      if (!$kpis.length) return;
+      $kpis.after(chips);
+
+      function count(qs) {
+        return fetch('/issues.json?project_id=' + encodeURIComponent(ident) + '&limit=1&' + qs,
+                     { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+          .then(function (d) { return typeof d.total_count === 'number' ? d.total_count : null; });
+      }
+
+      ops.forEach(function (op) {
+        if (op.avg) return;
+        count(op.count)
+          .then(function (n) { setOpValue(op.id, n); })
+          .catch(function (e) { console.error('Vistazo moderno [' + op.id + ']:', e); setOpValue(op.id, null); });
+      });
+
+      // Tiempo medio de cierre sobre las últimas 30 cerradas.
+      fetch('/issues.json?project_id=' + encodeURIComponent(ident) + '&status_id=c&limit=30&sort=closed_on:desc',
+            { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function (d) {
+          var days = (d.issues || []).filter(function (i) { return i.closed_on; }).map(function (i) {
+            return (new Date(i.closed_on) - new Date(i.created_on)) / 864e5;
+          });
+
+          if (!days.length) { setOpValue('mttr', null); return; }
+          var avg = days.reduce(function (s, x) { return s + x; }, 0) / days.length;
+          setOpValue('mttr', Number(avg.toFixed(1)).toLocaleString(RM_I18N.locale) + ' d');
+        })
+        .catch(function (e) { console.error('Vistazo moderno [mttr]:', e); setOpValue('mttr', null); });
+    });
+
+    /* ---------- 8) Personalizar: visibilidad y colores por proyecto (este navegador) ---------- */
+    safe('estadisticas', function () {
+      if (!hasIssues) return;
+      var $ops = $('.vz-ops').first();
+      var $actions = $('.vz-hero .vz-actions').first();
+      if (!$ops.length || !$actions.length) return;
+
+      // Estancadas: abiertas sin actualizar desde hace más de N días.
+      $ops.append('<a class="vz-op is-warn" id="vz-op-stalled" href="#"><b>\u2014</b><span>' + RM_I18N.t('stalledChip') + '</span></a>');
+      var stalledFor = null;
+      function loadStalled() {
+        var date = daysAgo(vzConf.stalledDays);
+        $('#vz-op-stalled').attr('href', queryUrl([['status_id', 'o'], ['updated_on', '<=', date]]));
+        if (stalledFor === date) return;
+        stalledFor = date;
+        setOpValue('stalled', null);
+        fetch('/issues.json?project_id=' + encodeURIComponent(ident) + '&limit=1&status_id=o&updated_on=%3C=' + date,
+              { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+          .then(function (d) { setOpValue('stalled', d.total_count); })
+          .catch(function (e) { console.error('Vistazo moderno [stalled]:', e); stalledFor = null; setOpValue('stalled', null); });
+      }
+
+      var checkRow = function (key, label) {
+        return '<label><input type="checkbox" data-stat="' + key + '"' + (vzConf[key] ? ' checked' : '') + '> ' + label + '</label>';
+      };
+      var indicators = [
+        ['kpis', RM_I18N.t('kpiBasic')],
+        ['donut', RM_I18N.t('donutGroup')],
+        ['unassigned', RM_I18N.t('chipUnassigned')],
+        ['overdue', RM_I18N.t('chipOverdue')],
+        ['nodue', RM_I18N.t('chipNoDue')],
+        ['new', RM_I18N.t('chipNew')],
+        ['closed', RM_I18N.t('chipClosed')],
+        ['mttr', RM_I18N.t('chipAvg')],
+        ['stalled', RM_I18N.t('chipStalled')],
+        ['issueCards', RM_I18N.t('issueCards')]
+      ].map(function (r) { return checkRow(r[0], r[1]); }).join('');
+      var attention = [
+        ['attnLate', RM_I18N.t('listLate')],
+        ['attnSoon', RM_I18N.t('listSoon')],
+        ['attnStalled', RM_I18N.t('listStalled')]
+      ].map(function (r) { return checkRow(r[0], r[1]); }).join('');
+      var dueColors = [
+        ['dueLate', RM_I18N.t('dueLate')],
+        ['dueWeek', RM_I18N.t('dueWeek')],
+        ['dueMonth', RM_I18N.t('dueMonth')]
+      ].map(function (r) { return checkRow(r[0], r[1]); }).join('');
+
+      var days = [3, 7, 15, 30, 60].map(function (d) {
+        return '<option value="' + d + '"' + (vzConf.stalledDays === d ? ' selected' : '') + '>' + RM_I18N.t('days', { n: d }) + '</option>';
+      }).join('');
+
+      var widget =
+        '<div class="vz-stats">' +
+          '<button type="button" class="vz-btn vz-stats-btn" aria-expanded="false" aria-controls="vz-stats-panel">' +
+            svg('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>') +
+            RM_I18N.t('customise') +
+          '</button>' +
+          '<div class="vz-stats-panel" id="vz-stats-panel" hidden>' +
+            '<h4>' + RM_I18N.t('indicators') + '</h4>' +
+            indicators +
+            '<h4 class="vz-stats-sub">' + RM_I18N.t('attentionPanel') + '</h4>' +
+            attention +
+            '<h4 class="vz-stats-sub">' + RM_I18N.t('dueColours') + '</h4>' +
+            dueColors +
+            '<div class="vz-stats-row"><span>' + RM_I18N.t('stalledMoreThan') + '</span>' +
+              '<select id="vz-stats-days" aria-label="' + RM_I18N.t('stalledMoreThan') + '">' + days + '</select></div>' +
+            '<p class="vz-stats-hint">' + RM_I18N.t('savedHint') + '</p>' +
+          '</div>' +
+        '</div>';
+
+      $actions.append(widget);
+
+      var $panel = $('#vz-stats-panel');
+      var $btn = $actions.find('.vz-stats-btn');
+      function close() { $panel.prop('hidden', true); $btn.attr('aria-expanded', 'false'); }
+
+      $btn.on('click', function (e) {
+        e.stopPropagation();
+        var show = $panel.prop('hidden');
+        $panel.prop('hidden', !show);
+        $btn.attr('aria-expanded', show ? 'true' : 'false');
+      });
+      $(document).on('click', function (e) {
+        if (!$panel.prop('hidden') && !$(e.target).closest('.vz-stats').length) close();
+      });
+      $(document).on('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+      $panel.on('change', 'input[data-stat]', function () {
+        var key = this.getAttribute('data-stat');
+        vzConf[key] = this.checked;
+        vzSave();
+        vzApply();
+        if (key === 'stalled' && this.checked) loadStalled();
+        if (key === 'attnStalled') vzRenderAttn();
+      });
+      $panel.on('change', '#vz-stats-days', function () {
+        vzConf.stalledDays = parseInt(this.value, 10) || vzDefault.stalledDays;
+        vzSave();
+        if (vzConf.stalled) loadStalled();
+        vzRenderAttn();
+      });
+
+      if (vzConf.stalled) loadStalled();
+      vzApply();
+    });
+
+  }
+
+  $(init);
+})();
+
+/* ============================================================
+   LOCAL CUSTOMISATIONS — sidebar width
+   Upstream sizes the sidebar from --rm-sidebar-w (240px). This
+   block restores the per-browser width setting (180–360px) on
+   My account; the stored value is applied before first paint.
+   ============================================================ */
+(function () {
+  var root = document.documentElement;
+  var KEY = 'rm-sidebar-width';
+  var MIN = 180, MAX = 360;
+
+  function storedWidth() {
+    try {
+      var w = parseInt(localStorage.getItem(KEY), 10);
+      return w >= MIN && w <= MAX ? w : 0;
+    } catch (e) { return 0; }
+  }
+
+  // Before the body is parsed: no flash at the default width.
+  var saved = storedWidth();
+  if (saved) root.style.setProperty('--rm-sidebar-w', saved + 'px');
+
+  function initWidthSetting() {
+    if (!document.body.classList.contains('controller-my') ||
+        !document.body.classList.contains('action-account')) return;
+    var layout = document.getElementById('rm-layout');
+    if (!layout || layout.querySelector('.rm-width-block')) return;
+
+    var computed = parseInt(getComputedStyle(root).getPropertyValue('--rm-sidebar-w'), 10);
+    var current = Math.max(MIN, Math.min(MAX, computed || 240));
+
+    var block = document.createElement('div');
+    block.className = 'rm-width-block';
+
+    var head = document.createElement('div');
+    head.className = 'rm-width-head';
+    var label = document.createElement('label');
+    label.className = 'rm-width-label';
+    label.setAttribute('for', 'rm-width-range');
+    label.textContent = RM_I18N.t('sidebarWidth');
+    var value = document.createElement('span');
+    value.className = 'rm-width-value';
+    value.textContent = current + 'px';
+    head.appendChild(label);
+    head.appendChild(value);
+
+    var range = document.createElement('input');
+    range.type = 'range';
+    range.id = 'rm-width-range';
+    range.className = 'rm-width-range';
+    range.min = String(MIN);
+    range.max = String(MAX);
+    range.step = '10';
+    range.value = String(current);
+    range.setAttribute('aria-label', RM_I18N.t('sidebarWidth'));
+    range.addEventListener('input', function () {
+      var w = parseInt(range.value, 10);
+      value.textContent = w + 'px';
+      root.style.setProperty('--rm-sidebar-w', w + 'px');
+      try { localStorage.setItem(KEY, String(w)); } catch (e) {}
+    });
+
+    var hint = document.createElement('p');
+    hint.className = 'rm-scheme-hint';
+    hint.textContent = RM_I18N.t('sidebarWidthHint');
+
+    block.appendChild(head);
+    block.appendChild(range);
+    block.appendChild(hint);
+
+    var sideRow = layout.querySelector('.rm-side-options');
+    if (sideRow && sideRow.parentNode === layout) layout.insertBefore(block, sideRow.nextSibling);
+    else layout.appendChild(block);
+
+    if (!layout.querySelector('.rm-theme-version')) {
+      var version = document.createElement('p');
+      version.className = 'rm-theme-version';
+      version.title = RM_THEME.id;
+      version.innerHTML = RM_THEME.name + ' <b>v' + RM_THEME.version + '</b>';
+      layout.appendChild(version);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWidthSetting);
+  } else {
+    initWidthSetting();
+  }
+})();
+
+/* ============================================================
+   LOCAL CUSTOMISATIONS — issue list KPI cards
+   Cards with the open issues by tracker above the filters on a
+   project issue list. This is a fixed snapshot (it does not
+   follow the active filters); each card links to that list.
+   Toggle: "Tarjetas del listado" in the overview Statistics panel.
+   ============================================================ */
+(function () {
+  var m = location.pathname.match(/^\/projects\/([^\/]+)\/issues\/?$/);
+  if (!m) return;
+
+  var ident;
+  try { ident = decodeURIComponent(m[1]); } catch (e) { ident = m[1]; }
+
+  function start() {
+    if (!document.body.classList.contains('controller-issues') ||
+        !document.body.classList.contains('action-index')) return;
+
+    var conf = {};
+    try { conf = JSON.parse(localStorage.getItem('rm-vz-stats:' + ident) || '{}') || {}; } catch (e) { conf = {}; }
+    colorDueDates(conf);
+    if (conf.issueCards === false) return;
+
+    var svg = function (p) {
+      return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>';
+    };
+    var ico = {
+      open: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>',
+      total: '<path d="M5 7h14M5 12h14M5 17h14"/>'
+    };
+    var esc = function (s) {
+      return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+      });
+    };
+
+    function parseDate(text) {
+      var m = text.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+      m = text.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})/);
+      if (!m) return null;
+      var a = +m[1], b = +m[2], y = +m[3], dayFirst;
+      if (a > 12) dayFirst = true;
+      else if (b > 12) dayFirst = false;
+      else {
+        var lang = (document.documentElement.lang || 'en').toLowerCase();
+        dayFirst = lang.indexOf('en-us') !== 0;
+      }
+      return new Date(y, (dayFirst ? b : a) - 1, dayFirst ? a : b);
+    }
+
+    function colorDueDates(conf) {
+      var $ = window.jQuery;
+      if (!$) return;
+      var today = new Date(); today.setHours(0, 0, 0, 0);
+      var DAY = 864e5;
+      $('table.issues tbody tr').each(function () {
+        var $row = $(this);
+        var $cell = $row.find('td.due_date').first();
+        $row.removeClass('vz-row-late');
+        if (!$cell.length) return;
+        var date = parseDate($cell.text().replace(/\s+/g, ' ').trim());
+        if (!date) return;
+        var days = Math.round((date - today) / DAY);
+        $cell.removeClass('vz-due-late vz-due-week vz-due-month');
+        if (days < 0) {
+          if (conf.dueLate !== false) {
+            $cell.addClass('vz-due-late');
+            $row.addClass('vz-row-late');
+          }
+        } else if (days <= 7) {
+          if (conf.dueWeek !== false) $cell.addClass('vz-due-week');
+        } else if (days <= 30) {
+          if (conf.dueMonth !== false) $cell.addClass('vz-due-month');
+        }
+      });
+    }
+
+    fetch('/projects/' + encodeURIComponent(ident) + '/issues/report/tracker', { credentials: 'same-origin' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var rows = doc.querySelectorAll('table.issue-report-detailed tbody tr');
+        var items = [], total = 0;
+
+        Array.prototype.forEach.call(rows, function (tr) {
+          var nameCell = tr.querySelector('td.name');
+          if (!nameCell) return;
+          var name = (nameCell.textContent || '').trim();
+          var openCell = tr.querySelector('td:nth-last-child(3)');
+          var openLink = openCell ? openCell.querySelector('a') : null;
+          var href = openLink ? openLink.getAttribute('href') : '';
+          var open = parseInt(openCell ? openCell.textContent : '', 10) || 0;
+          total += open;
+          if (open > 0 && href) items.push({ name: name, href: href, open: open });
+        });
+
+        if (!total) return;
+        items.sort(function (a, b) { return b.open - a.open; });
+
+        var cards = items.map(function (it) {
+          return '<a class="vz-kpi" href="' + esc(it.href) + '">' +
+            '<span class="vz-ico">' + svg(ico.open) + '</span>' +
+            '<span class="vz-txt"><small>' + esc(it.name) + '</small><b>' + it.open + '</b></span>' +
+          '</a>';
+        });
+        cards.push(
+          '<a class="vz-kpi" href="/projects/' + encodeURIComponent(ident) + '/issues?set_filter=1&status_id=o">' +
+            '<span class="vz-ico">' + svg(ico.total) + '</span>' +
+            '<span class="vz-txt"><small>' + RM_I18N.t('totalOpen') + '</small><b>' + total + '</b></span>' +
+          '</a>');
+
+        var h2 = document.querySelector('#content > h2');
+        if (!h2) return;
+        var box = document.createElement('div');
+        box.className = 'vz-kpis vz-kpis-issues';
+        box.innerHTML = cards.join('');
+        h2.parentNode.insertBefore(box, h2.nextSibling);
+      })
+      .catch(function (e) { console.error('Vistazo moderno [tracker report]:', e); });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+
+/* ============================================================
+   LOCAL CUSTOMISATIONS — My page ("Mi vistazo")
+   KPI strip with the logged-in user's workload, above the
+   configurable My page blocks. Counts come from /issues.json
+   with the "me" value, so it follows the current user.
+   ============================================================ */
+(function () {
+  function start() {
+    if (!document.body.classList.contains('controller-my') ||
+        !document.body.classList.contains('action-page')) return;
+    if (document.getElementById('vz-my')) return;
+
+    var $ = window.jQuery;
+    if (!$) return;
+
+    var uid = (function () {
+      var hrefs = [];
+      $('.flyout-menu__avatar a[href^="/users/"]').each(function () { hrefs.push(this.getAttribute('href')); });
+      if (!hrefs.length) $('a.user[href^="/users/"]').each(function () { hrefs.push(this.getAttribute('href')); });
+      for (var i = 0; i < hrefs.length; i++) {
+        var m = (hrefs[i] || '').match(/^\/users\/(\d+)\/?$/);
+        if (m) return m[1];
+      }
+      return 'me';
+    })();
+
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    var iso = function (d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
+    var daysAgo = function (n) { return iso(new Date(Date.now() - n * 864e5)); };
+    var today = daysAgo(0), yesterday = daysAgo(1), weekAgo = daysAgo(7), weekAhead = daysAgo(-7);
+
+    var query = function (filters) {
+      var parts = ['set_filter=1'];
+      filters.forEach(function (f) {
+        parts.push('f%5B%5D=' + encodeURIComponent(f[0]));
+        parts.push('op%5B' + encodeURIComponent(f[0]) + '%5D=' + encodeURIComponent(f[1]));
+        if (f[2] != null) {
+          (Array.isArray(f[2]) ? f[2] : [f[2]]).forEach(function (v) {
+            parts.push('v%5B' + encodeURIComponent(f[0]) + '%5D%5B%5D=' + encodeURIComponent(v));
+          });
+        }
+      });
+      return '/issues?' + parts.join('&');
+    };
+    var api = function (filters) {
+      var parts = ['limit=1'];
+      filters.forEach(function (f) {
+        parts.push(encodeURIComponent(f[0]) + '=' + encodeURIComponent(f[1]));
+      });
+      return '/issues.json?' + parts.join('&');
+    };
+
+    var svg = function (p) {
+      return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>';
+    };
+    var ico = {
+      open: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/>',
+      alert: '<path d="M12 3 2.5 20h19L12 3z"/><path d="M12 9v5"/><circle cx="12" cy="17" r=".6" fill="currentColor"/>',
+      clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+      user: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 2.9-6 7-6s7 2.4 7 6"/>',
+      closed: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>',
+      pause: '<circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/>'
+    };
+
+    var cards = [
+      { id: 'assigned', label: RM_I18N.t('myAssigned'), icon: 'open',
+        href: query([['assigned_to_id', '=', uid], ['status_id', 'o']]),
+        api: api([['assigned_to_id', uid], ['status_id', 'o']]) },
+      { id: 'late', label: RM_I18N.t('myLate'), icon: 'alert', cls: 'is-late',
+        href: query([['assigned_to_id', '=', uid], ['status_id', 'o'], ['due_date', '<=', yesterday]]),
+        api: api([['assigned_to_id', uid], ['status_id', 'o'], ['due_date', '<=' + yesterday]]) },
+      { id: 'week', label: RM_I18N.t('myWeek'), icon: 'clock', cls: 'is-soon',
+        href: query([['assigned_to_id', '=', uid], ['status_id', 'o'], ['due_date', '><', [today, weekAhead]]]),
+        api: api([['assigned_to_id', uid], ['status_id', 'o'], ['due_date', '><' + today + '|' + weekAhead]]) },
+      { id: 'reported', label: RM_I18N.t('myReported'), icon: 'user',
+        href: query([['author_id', '=', uid], ['status_id', 'o']]),
+        api: api([['author_id', uid], ['status_id', 'o']]) },
+      { id: 'closed', label: RM_I18N.t('myClosed'), icon: 'closed', cls: 'is-ok',
+        href: query([['assigned_to_id', '=', uid], ['status_id', 'c'], ['updated_on', '>=', weekAgo]]),
+        api: api([['assigned_to_id', uid], ['status_id', 'c'], ['updated_on', '>=' + weekAgo]]) },
+      { id: 'stalled', label: RM_I18N.t('myStalled'), icon: 'pause', cls: 'is-stalled',
+        href: query([['assigned_to_id', '=', uid], ['status_id', 'o'], ['updated_on', '<=', daysAgo(7)]]),
+        api: api([['assigned_to_id', uid], ['status_id', 'o'], ['updated_on', '<=' + daysAgo(7)]]) }
+    ];
+
+    var box = $('<div class="vz-kpis vz-kpis-my" id="vz-my"></div>');
+    cards.forEach(function (c) {
+      box.append(
+        '<a class="vz-kpi' + (c.cls ? ' ' + c.cls : '') + '" href="' + c.href + '">' +
+          '<span class="vz-ico">' + svg(ico[c.icon]) + '</span>' +
+          '<span class="vz-txt"><small>' + c.label + '</small><b id="vz-my-' + c.id + '">\u2014</b></span>' +
+        '</a>');
+    });
+
+    var $h2 = $('#content > h2').first();
+    if (!$h2.length) {
+      $('#content').first().prepend(box);
+    } else {
+      $h2.after(box);
+    }
+
+    cards.forEach(function (c) {
+      fetch(c.api, { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function (d) { $('#vz-my-' + c.id).text(typeof d.total_count === 'number' ? d.total_count : '\u2014'); })
+        .catch(function (e) { console.error('Vistazo moderno [my ' + c.id + ']:', e); });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+
+/* ── LOCAL: initials avatars in issue list user columns ────────
+   Redmine's own avatar palette is `avatar-color-<user.id % 16>` (same
+   classes used by the account menu). Issue list cells only render a
+   plain <a class="user">, so we prepend the initials span client-side.
+   No extra requests and the colour matches Redmine exactly. */
+(function () {
+  'use strict';
+
+  function initials(name) {
+    var clean = String(name || '').replace(/\([^)]*\)/g, ' ').trim();
+    var parts = clean.split(/[\s,]+/).filter(Boolean);
+    var first = function (s, n) {
+      var m = s.match(/[\p{L}\p{N}]/gu);
+      return m ? m.slice(0, n).join('').toUpperCase() : '';
+    };
+    if (!parts.length) return '';
+    if (parts.length === 1) return first(parts[0], 2);
+    return first(parts[0], 1) + first(parts[parts.length - 1], 1);
+  }
+
+  function decorate() {
+    var links = document.querySelectorAll('td.assigned_to a.user, td.author a.user');
+    Array.prototype.forEach.call(links, function (a) {
+      if (a.querySelector('.rm-user-avatar')) return;
+      var m = (a.getAttribute('href') || '').match(/^\/users\/(\d+)/);
+      if (!m) return;
+      var name = a.textContent.trim();
+      var ini = initials(name);
+      if (!ini) return;
+
+      var span = document.createElement('span');
+      span.className = 'avatar s16 avatar-color-' + (parseInt(m[1], 10) % 16) + ' rm-user-avatar';
+      span.setAttribute('role', 'img');
+      span.setAttribute('aria-hidden', 'true');
+      span.setAttribute('title', name);
+      span.textContent = ini;
+      a.insertBefore(span, a.firstChild);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', decorate);
+  } else {
+    decorate();
+  }
+})();

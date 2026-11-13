@@ -4,6 +4,15 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.5] — 2026-11-13
+
+### Fixed
+
+- Saved custom queries in the issues sidebar: the selected query and its **Clear (×)** link
+  now stay on one row, with the × at the end, instead of pushing the clear link below the
+  query and moving the following sidebar links down. The clear icon now uses the theme's
+  muted text colour by default and the accent colour on hover/focus.
+
 ## [1.2.4] — 2026-11-13
 
 First public Lumen release. This packages the 1.2.4 codebase, based on

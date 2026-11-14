@@ -6,7 +6,7 @@ Internal notes for maintaining Lumen without rebuilding context from scratch.
 
 - Theme id / folder: `redmine-lumen`
 - Display name: `Lumen`
-- Current version: `1.2.4`
+- Current version: `1.3.0`
 - Upstream: [`acosonic/redmine-modern-theme`](https://github.com/acosonic/redmine-modern-theme),
   branch `redmine-7`, commit `2685821`, MIT.
 - Original author: Aleksandar Pavic.
@@ -39,8 +39,10 @@ folder. Keep those entry points working.
 
 ## Local blocks
 
-- `custom.css` — customisations, plugin fixes, calendar dark mode, toast position.
+- `custom.css` — customisations, plugin fixes, calendar dark mode, toast position, Home.
 - `theme.js` — `RM_THEME`, `RM_I18N`, upstream code and local blocks for:
+  - Home dashboard (permission-aware general dashboard, HTML reads with the current
+    session);
   - project overview hero, KPIs, attention, donut and Customise panel;
   - issue-list cards and due-date colours;
   - My page KPI strip;
@@ -88,6 +90,10 @@ would be needed.
 - Resolve the user id from the account flyout (`/users/<id>`), falling back to `me`.
 - Filter URLs use `op[assigned_to_id]=` with `v[assigned_to_id][]=<id>`.
 - API calls use `assigned_to_id=<id>`.
+- The logged-hours card reads `/time_entries.csv?from=<monday>&to=<sunday>&user_id=<uid>&c[]=hours`
+  with the current session, and sums the CSV. The week is Monday–Sunday of the current
+  calendar week; the card links to `/time_entries?from=<monday>&to=<sunday>&user_id=<uid>`.
+  Hours respect private projects through the session-authenticated request.
 
 ## Calendar
 
@@ -117,13 +123,15 @@ node --check javascripts/theme.js
 Manual checks:
 
 1. Install the theme in Redmine 7 and select it.
-2. Project overview: KPIs, donut switch, attention lists, chips, Customise panel.
-3. Issue list: cards, due colours, avatars, column alignment.
-4. My page: six KPIs and links.
-5. Calendar in dark mode.
-6. Header search width and autocomplete magnifier.
-7. Light/dark toggle: centered toast and correct scheme.
-8. My account: schemes, sidebar position/width and version.
+2. Home dashboard: permission-aware cards, tracker breakdown, activity, logged hours;
+   admin, user and anonymous views.
+3. Project overview: KPIs, donut switch, attention lists, chips, Customise panel.
+4. Issue list: cards, due colours, avatars, column alignment.
+5. My page: seven KPIs (including logged hours this week) and links.
+6. Calendar in dark mode.
+7. Header search width and autocomplete magnifier.
+8. Light/dark toggle: centered toast and correct scheme.
+9. My account: schemes, sidebar position/width and version.
 
 Automated tests are not bundled. The prior development used `jsdom` fixtures for My page,
 issue lists, due dates and avatars; those fixtures are local and not part of the theme.

@@ -58,15 +58,18 @@ leaving a key with an empty value, because that hides the fallback.
 
 ## Current keys
 
-The English and Spanish tables contain the same 113 keys. They cover:
+The English and Spanish tables contain the same keys and cover:
 
 - Dark/light mode and colour-scheme picker.
 - Sidebar position and width.
 - Collapsible issue sections.
 - Project overview: KPIs, attention lists, donut chart, chips, Customise panel.
 - Issue-list cards and due-date labels.
-- My page KPIs.
+- My page KPIs, including logged hours this week.
 - Theme version label.
+
+The general Home dashboard introduced in `1.3.0` has its own English/Spanish dictionary
+inside the home block, following the same fallback rules.
 
 ## Testing
 
@@ -74,6 +77,6 @@ At minimum:
 
 1. `node --check javascripts/theme.js`
 2. Load the theme with `lang="en"` and `lang="es"` (or your language).
-3. Check the project overview, an issue list and **My page**.
+3. Check the Home dashboard, the project overview, an issue list and **My page**.
 4. Switch light/dark mode and confirm the toast uses the translated labels.
-5. Confirm dates use the expected locale.
+5. Confirm dates and decimals use the expected locale.

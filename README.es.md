@@ -10,7 +10,7 @@ Lumen es un fork comunitario de
 métricas en listados, avatares con iniciales, compatibilidad con plugins y textos en
 inglés y español.
 
-- **Versión actual:** `1.2.5`
+- **Versión actual:** `1.3.0`
 - **Redmine:** 7.0 o superior
 - **Licencia:** MIT
 - **Carpeta del theme:** `redmine-lumen`
@@ -85,7 +85,19 @@ visible en el listado. Hacé clic en una imagen para verla en tamaño completo.
 
 - Franja de KPIs arriba de los bloques: asignadas abiertas, vencidas, vencen en 7 días,
   reportadas abiertas, cerradas en 7 días y estancadas +7 días.
-- Cada tarjeta linkea al listado filtrado del usuario logueado.
+- Horas registradas esta semana (lunes a domingo) para el usuario logueado, leídas desde el
+  CSV de time entries con la sesión actual, respetando proyectos privados. Linkea al
+  listado de **time entries** filtrado por usuario y semana.
+
+### Dashboard general (Inicio)
+
+- Vistazo con permisos sobre el texto de bienvenida: usuarios (solo admin), proyectos e
+  incidencias visibles, nuevas/cerradas/actualizadas en 7 días, horas registradas, cierre
+  promedio, abiertas por tipo y actividad reciente. La tarjeta de usuarios muestra además
+  los usuarios activos y los nuevos.
+- Lee las páginas HTML de Redmine con la sesión actual, así el admin ve totales globales,
+  los usuarios comunes ven sus proyectos/incidencias visibles y el anónimo solo lo público.
+  Sin API key, backend ni requests externos.
 
 ### Traducciones
 

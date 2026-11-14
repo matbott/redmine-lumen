@@ -4,6 +4,21 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] — 2026-11-14
+
+### Added
+
+- General **Home dashboard** — a permission-aware overview above the welcome text with
+  users (admin only), visible projects and issues, new/closed/updated in the last 7 days,
+  logged hours, average closing time, open issues by tracker and recent activity.
+- **Hours this week** on the My page KPI strip — logged hours for the Monday–Sunday week,
+  read from the time-entry CSV with the current session. The card links to the filtered
+  **time entries** page for the logged-in user and that week.
+
+### Changed
+
+- The theme version is now `1.3.0`.
+
 ## [1.2.5] — 2026-11-13
 
 ### Fixed

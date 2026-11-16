@@ -68,7 +68,7 @@ The English and Spanish tables contain the same keys and cover:
 - My page KPIs, including logged hours this week.
 - Theme version label.
 
-The general Home dashboard introduced in `1.3.0` has its own English/Spanish dictionary
+The general Home dashboard introduced in `1.3.0` (and its tracker chart selector in `1.4.0`) has its own English/Spanish dictionary
 inside the home block, following the same fallback rules.
 
 ## Testing

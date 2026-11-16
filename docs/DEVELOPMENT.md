@@ -6,7 +6,7 @@ Internal notes for maintaining Lumen without rebuilding context from scratch.
 
 - Theme id / folder: `redmine-lumen`
 - Display name: `Lumen`
-- Current version: `1.3.0`
+- Current version: `1.4.0`
 - Upstream: [`acosonic/redmine-modern-theme`](https://github.com/acosonic/redmine-modern-theme),
   branch `redmine-7`, commit `2685821`, MIT.
 - Original author: Aleksandar Pavic.
@@ -42,7 +42,7 @@ folder. Keep those entry points working.
 - `custom.css` — customisations, plugin fixes, calendar dark mode, toast position, Home.
 - `theme.js` — `RM_THEME`, `RM_I18N`, upstream code and local blocks for:
   - Home dashboard (permission-aware general dashboard, HTML reads with the current
-    session);
+    session, top-10 tracker chart with bars/donut selector);
   - project overview hero, KPIs, attention, donut and Customise panel;
   - issue-list cards and due-date colours;
   - My page KPI strip;
@@ -65,6 +65,7 @@ All settings are client-side, in `localStorage`:
 | `rm-sidebar-width` | sidebar width |
 | `rm-vz-stats:<project>` | project dashboard and due-colour toggles |
 | `rm-open-<section>` | collapsible section state |
+| `rm-home-trackers-view` | Home tracker chart: bars or donut |
 
 There is no backend configuration. To share project defaults, a custom field or plugin
 would be needed.
@@ -123,8 +124,8 @@ node --check javascripts/theme.js
 Manual checks:
 
 1. Install the theme in Redmine 7 and select it.
-2. Home dashboard: permission-aware cards, tracker breakdown, activity, logged hours;
-   admin, user and anonymous views.
+2. Home dashboard: permission-aware cards, tracker top 10 with bars/donut and remaining
+   footer, activity, logged hours, 50/50 panels; admin, user and anonymous views.
 3. Project overview: KPIs, donut switch, attention lists, chips, Customise panel.
 4. Issue list: cards, due colours, avatars, column alignment.
 5. My page: seven KPIs (including logged hours this week) and links.

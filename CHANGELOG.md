@@ -4,6 +4,21 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.4.0] — 2026-11-16
+
+### Added
+
+- Home **Open by type** now shows the **top 10 trackers by open count**, sorted from most
+  to least, with a footer for the remaining types and their open issues. Data comes from
+  one grouped issue list (all pages) instead of a per-tracker count.
+- **Bars / Donut** selector for that chart. The donut shows the top 8 plus **Others** and
+  reuses the project overview palette; the chosen view is remembered per browser.
+
+### Changed
+
+- The two Home panels, **Open by type** and **Recent activity**, now share the row 50/50.
+- The theme version is now `1.4.0`.
+
 ## [1.3.0] — 2026-11-14
 
 ### Added

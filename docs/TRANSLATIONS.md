@@ -69,8 +69,9 @@ The English and Spanish tables contain the same keys and cover:
 - Theme version label.
 
 The general Home dashboard introduced in `1.3.0` has its own English/Spanish dictionary
-inside the home block, following the same fallback rules. The tracker chart keys were
-removed in `1.5.0`.
+inside the home block, following the same fallback rules. The later tracker chart keys were
+removed in `1.5.0`; the restored top-5 tracker donut adds a small set of current keys in
+`1.7.0`.
 
 ## Testing
 

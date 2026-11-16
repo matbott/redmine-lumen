@@ -6,7 +6,7 @@ Internal notes for maintaining Lumen without rebuilding context from scratch.
 
 - Theme id / folder: `redmine-lumen`
 - Display name: `Lumen`
-- Current version: `1.5.0`
+- Current version: `1.7.0`
 - Upstream: [`acosonic/redmine-modern-theme`](https://github.com/acosonic/redmine-modern-theme),
   branch `redmine-7`, commit `2685821`, MIT.
 - Original author: Aleksandar Pavic.
@@ -42,7 +42,7 @@ folder. Keep those entry points working.
 - `custom.css` — customisations, plugin fixes, calendar dark mode, toast position, Home.
 - `theme.js` — `RM_THEME`, `RM_I18N`, upstream code and local blocks for:
   - Home dashboard (permission-aware general dashboard, HTML reads with the current
-    session and recent activity);
+    session, top-5 open-by-tracker donut capped at 1,000 open issues, and recent activity);
   - project overview hero, KPIs, attention, donut and Customise panel;
   - issue-list cards and due-date colours;
   - My page KPI strip;
@@ -90,9 +90,12 @@ would be needed.
 
 ## Deferred: optional stats plugin
 
-Tracker counts on Home were removed in `1.5.0`. The old implementation loaded a grouped
-issue list page by page, which was unsafe on a large instance. If tracker breakdowns are
-wanted again, use a small Redmine plugin instead of reading issue-list HTML:
+The Home all-pages grouped-list loader was retired in `1.5.0`. The tracker donut restored
+in `1.7.0` uses a bounded grouped-list scan: sequential pages, at most 1,000 open issues
+scanned and a footer link to the full grouped list.
+
+If tracker breakdowns are wanted again without the bounded client-side scan, use a small
+Redmine plugin instead of reading issue-list HTML:
 
 - One permission-aware endpoint, for example `GET /lumen_stats.json?scope=home` and
   `GET /lumen_stats.json?project_id=<identifier>`.
@@ -148,8 +151,8 @@ node --check javascripts/theme.js
 Manual checks:
 
 1. Install the theme in Redmine 7 and select it.
-2. Home dashboard: permission-aware cards, full-width activity, logged hours; admin, user
-   and anonymous views.
+2. Home dashboard: permission-aware cards, top-5 donut with Others, 50/50 panels, footer
+   “view all”, capped grouped scan; admin, user and anonymous views.
 3. Project overview: KPIs, donut switch, attention lists, chips, Customise panel.
 4. Issue list: cards, due colours, avatars, column alignment.
 5. My page: seven KPIs (including logged hours this week) and links.

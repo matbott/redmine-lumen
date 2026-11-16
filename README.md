@@ -9,7 +9,7 @@ Lumen is a community fork of
 (branch `redmine-7`). It keeps the upstream design system and adds project dashboards,
 issue-list metrics, initials avatars, plugin compatibility and English/Spanish UI strings.
 
-- **Current version:** `1.5.0`
+- **Current version:** `1.7.0`
 - **Redmine:** 7.0 or later
 - **License:** MIT
 - **Theme folder:** `redmine-lumen`
@@ -102,8 +102,11 @@ column in the issue list. Click an image to open it full size.
 - A permission-aware overview above the welcome text: users (admin only), visible projects
   and issues, new/closed/updated in the last 7 days, logged hours, average closing time and
   recent activity. The users card shows active users (last login in 7 days) and new users.
-- Recent activity uses the full width below the KPI cards. Home does not fetch a per-tracker
-  breakdown; that data is deferred to an optional server-side stats plugin.
+- Home **Open by type** is back as a donut: **top 5 trackers by open count**, with **Others**
+  containing the rest. It scans a grouped issue list sequentially and is capped at **1,000 open
+  issues**. When there are more, it notes that the figures are based on the first 1,000 and links
+  to the full grouped list.
+- Recent activity shares the row 50/50 below the KPI cards with this chart.
 - It reads Redmine's HTML pages with the current session, so administrators get the global
   totals, members get their visible projects/issues and anonymous visitors get public data.
   No API key, backend or external requests.

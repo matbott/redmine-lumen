@@ -10,7 +10,7 @@ Lumen es un fork comunitario de
 métricas en listados, avatares con iniciales, compatibilidad con plugins y textos en
 inglés y español.
 
-- **Versión actual:** `1.5.0`
+- **Versión actual:** `1.7.0`
 - **Redmine:** 7.0 o superior
 - **Licencia:** MIT
 - **Carpeta del theme:** `redmine-lumen`
@@ -95,8 +95,11 @@ visible en el listado. Hacé clic en una imagen para verla en tamaño completo.
   incidencias visibles, nuevas/cerradas/actualizadas en 7 días, horas registradas, cierre
   promedio y actividad reciente. La tarjeta de usuarios muestra además los usuarios activos
   y los nuevos.
-- La actividad reciente ocupa todo el ancho debajo de las tarjetas KPI. Inicio no consulta
-  el desglose por tipo; esos datos quedan para un plugin de estadísticas opcional.
+- **“Abiertas por tipo”** volvió como **torta**: top 5 de tipos por abiertas, con **Otros**
+  para el resto. Escanea el listado agrupado secuencialmente y está limitado a **1.000
+  incidencias abiertas**. Si hay más, aclara que los datos salen de las primeras 1.000 y
+  ofrece el link al listado completo.
+- La actividad reciente comparte la fila 50/50 debajo de las tarjetas KPI con esta torta.
 - Lee las páginas HTML de Redmine con la sesión actual, así el admin ve totales globales,
   los usuarios comunes ven sus proyectos/incidencias visibles y el anónimo solo lo público.
   Sin API key, backend ni requests externos.

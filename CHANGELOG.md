@@ -4,6 +4,24 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.7.0] — 2026-11-16
+
+### Added
+
+- Home **Open by type** is back, now as a **donut** of the **top 5 trackers by open count**
+  and an **Others** slice for the remaining types.
+
+### Changed
+
+- The restored tracker donut loads a grouped issue list sequentially and scans at most
+  **1,000 open issues**. With more open issues than that, it says it is based on the first
+  1,000 and links to the full grouped list.
+- The two Home panels share the row 50/50 again.
+
+### Changed
+
+- The theme version is now `1.7.0`.
+
 ## [1.5.0] — 2026-11-16
 
 ### Removed

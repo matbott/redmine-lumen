@@ -6,7 +6,7 @@ Internal notes for maintaining Lumen without rebuilding context from scratch.
 
 - Theme id / folder: `redmine-lumen`
 - Display name: `Lumen`
-- Current version: `1.4.0`
+- Current version: `1.5.0`
 - Upstream: [`acosonic/redmine-modern-theme`](https://github.com/acosonic/redmine-modern-theme),
   branch `redmine-7`, commit `2685821`, MIT.
 - Original author: Aleksandar Pavic.
@@ -42,7 +42,7 @@ folder. Keep those entry points working.
 - `custom.css` — customisations, plugin fixes, calendar dark mode, toast position, Home.
 - `theme.js` — `RM_THEME`, `RM_I18N`, upstream code and local blocks for:
   - Home dashboard (permission-aware general dashboard, HTML reads with the current
-    session, top-10 tracker chart with bars/donut selector);
+    session and recent activity);
   - project overview hero, KPIs, attention, donut and Customise panel;
   - issue-list cards and due-date colours;
   - My page KPI strip;
@@ -65,7 +65,9 @@ All settings are client-side, in `localStorage`:
 | `rm-sidebar-width` | sidebar width |
 | `rm-vz-stats:<project>` | project dashboard and due-colour toggles |
 | `rm-open-<section>` | collapsible section state |
-| `rm-home-trackers-view` | Home tracker chart: bars or donut |
+
+`rm-home-trackers-view` was used by the removed Home tracker chart. It is no longer read;
+leaving it in a browser is harmless.
 
 There is no backend configuration. To share project defaults, a custom field or plugin
 would be needed.
@@ -85,6 +87,28 @@ would be needed.
 - Cards run only on `/projects/<id>/issues`.
 - They are a fixed snapshot of open issues by tracker and do not follow active filters.
 - Due-date colours require the due-date column to be visible.
+
+## Deferred: optional stats plugin
+
+Tracker counts on Home were removed in `1.5.0`. The old implementation loaded a grouped
+issue list page by page, which was unsafe on a large instance. If tracker breakdowns are
+wanted again, use a small Redmine plugin instead of reading issue-list HTML:
+
+- One permission-aware endpoint, for example `GET /lumen_stats.json?scope=home` and
+  `GET /lumen_stats.json?project_id=<identifier>`.
+- Use `Issue.visible(User.current)` and check `view_issues` for project stats; never return
+  counts from projects the user cannot see.
+- Return aggregate totals and `GROUP BY tracker_id` counts. Add the 7-day and attention
+  counts to the same response if desired.
+- Cache the JSON with `Rails.cache` (about 5 minutes) keyed by user, scope, project and
+  relevant parameters. The first request after expiry runs one aggregate query; later
+  page loads are instant.
+- Keep recent-activity and attention lists as limited `/issues.json` reads. The plugin is
+  for counts, not for listing issue rows.
+- The theme should treat the plugin as optional: if the endpoint is missing, hide the
+  tracker breakdown and keep the rest of Home working.
+- This is a larger change because it adds a backend component and must be tested against
+  permissions and a 50k-issue instance. It is not implemented yet.
 
 ## My page
 
@@ -124,8 +148,8 @@ node --check javascripts/theme.js
 Manual checks:
 
 1. Install the theme in Redmine 7 and select it.
-2. Home dashboard: permission-aware cards, tracker top 10 with bars/donut and remaining
-   footer, activity, logged hours, 50/50 panels; admin, user and anonymous views.
+2. Home dashboard: permission-aware cards, full-width activity, logged hours; admin, user
+   and anonymous views.
 3. Project overview: KPIs, donut switch, attention lists, chips, Customise panel.
 4. Issue list: cards, due colours, avatars, column alignment.
 5. My page: seven KPIs (including logged hours this week) and links.

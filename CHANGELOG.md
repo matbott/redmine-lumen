@@ -4,6 +4,27 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.5.0] — 2026-11-16
+
+### Removed
+
+- The Home **Open by type** panel, including its bars/donut selector, remaining-types
+  footer, translations and dedicated styles. The experimental grouped issue-list request
+  that loaded every page was removed after it caused excessive database load on a large
+  instance.
+- The unused Home helpers for tracker JSON and grouped-list parsing.
+
+### Changed
+
+- Home **Recent activity** now uses the full width below the KPI cards.
+- The theme version is now `1.5.0`.
+
+### Deferred
+
+- An optional server-side stats plugin for permission-aware tracker counts across Home,
+  project overview and issue lists is documented in `docs/DEVELOPMENT.md`. It is a larger
+  change and is not part of this release.
+
 ## [1.4.0] — 2026-11-16
 
 ### Added

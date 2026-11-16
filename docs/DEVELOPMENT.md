@@ -177,6 +177,17 @@ docker restart <container>
 
 Then hard-refresh the browser (`Ctrl+F5`). If assets are served from a CDN, purge it too.
 
+## Pending improvements
+
+- Project-overview completion percentage: keep pending. The current calculation uses
+  `Math.round(closed * 100 / total)`, which can display **100%** when a small number of
+  issues remain open (for example, 44 open of 9,313). Decide later whether to round,
+  truncate, or show decimals.
+- Home dedicated time-hours panel: proposed per-user hour cards above, similar to the
+  issue-list tracker cards, showing hours per user. Use the last 5–6 users by latest logged
+  hours; if a project has 20 users, do not expect 20 cards, only the latest users that
+  summed hours.
+
 ## Release checklist
 
 1. Update `RM_THEME.version`.

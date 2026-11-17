@@ -6,7 +6,7 @@ Internal notes for maintaining Lumen without rebuilding context from scratch.
 
 - Theme id / folder: `redmine-lumen`
 - Display name: `Lumen`
-- Current version: `1.7.0`
+- Current version: `1.7.1`
 - Upstream: [`acosonic/redmine-modern-theme`](https://github.com/acosonic/redmine-modern-theme),
   branch `redmine-7`, commit `2685821`, MIT.
 - Original author: Aleksandar Pavic.
@@ -128,6 +128,14 @@ Redmine plugin instead of reading issue-list HTML:
 Core paints the grid with static open-colors. The RedmineUP plugin stylesheet loads after
 the theme and repaints weekends, the week-number column and “today” with light colours.
 The calendar rules in `custom.css` use `!important` for those plugin overrides.
+
+## RedmineUP CMS iframe pages
+
+The CMS plugin adds `padding: var(--hdr) 0 0 0 !important` to `#content` when the page
+contains an iframe. On this theme that header-height offset is not needed and leaves a
+blank strip above embedded dashboards such as Grafana. `custom.css` clears only the top
+padding for every `#content` that contains an iframe, using an `html` prefix to beat the
+plugin's `!important` rule while keeping its side and bottom spacing.
 
 ## Toast
 

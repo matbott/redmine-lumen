@@ -4,6 +4,18 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.7.1] — 2026-11-17
+
+### Fixed
+
+- Removed the blank strip above RedmineUP CMS pages that embed an iframe (for example,
+  Grafana dashboards). The CMS plugin adds a header-height top padding to `#content`; the
+  theme now clears only that top offset while keeping the plugin's other spacing.
+
+### Changed
+
+- The theme version is now `1.7.1`.
+
 ## [1.7.0] — 2026-11-16
 
 ### Added

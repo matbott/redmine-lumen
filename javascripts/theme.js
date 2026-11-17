@@ -14,7 +14,7 @@
 var RM_THEME = {
   id: 'redmine-lumen',
   name: 'Lumen',
-  version: '1.7.0'
+  version: '1.7.1'
 };
 
 /* ── TRANSLATIONS ─────────────────────────────────────────────

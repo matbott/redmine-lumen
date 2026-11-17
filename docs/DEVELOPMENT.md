@@ -195,6 +195,9 @@ Then hard-refresh the browser (`Ctrl+F5`). If assets are served from a CDN, purg
   issue-list tracker cards, showing hours per user. Use the last 5–6 users by latest logged
   hours; if a project has 20 users, do not expect 20 cards, only the latest users that
   summed hours.
+- RedmineUP **Help & Support** (/ Questions) plugin: review the light border that does not
+  fit the theme. Keep the fix scoped to the plugin page and use the theme tokens when
+  possible.
 
 ## Release checklist
 

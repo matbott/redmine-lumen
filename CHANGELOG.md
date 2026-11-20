@@ -4,6 +4,17 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.7.2] — 2026-11-20
+
+### Fixed
+
+- Taskboard / board now uses the theme surface and background tokens for the board and its
+  table rows, covering the empty-board state instead of a plain white fallback.
+
+### Changed
+
+- The theme version is now `1.7.2`.
+
 ## [1.7.1] — 2026-11-17
 
 ### Fixed

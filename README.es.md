@@ -10,7 +10,7 @@ Lumen es un fork comunitario de
 métricas en listados, avatares con iniciales, compatibilidad con plugins y textos en
 inglés y español.
 
-- **Versión actual:** `1.7.1`
+- **Versión actual:** `1.7.2`
 - **Redmine:** 7.0 o superior
 - **Licencia:** MIT
 - **Carpeta del theme:** `redmine-lumen`

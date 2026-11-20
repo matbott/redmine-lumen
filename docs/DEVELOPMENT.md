@@ -6,7 +6,7 @@ Internal notes for maintaining Lumen without rebuilding context from scratch.
 
 - Theme id / folder: `redmine-lumen`
 - Display name: `Lumen`
-- Current version: `1.7.1`
+- Current version: `1.7.2`
 - Upstream: [`acosonic/redmine-modern-theme`](https://github.com/acosonic/redmine-modern-theme),
   branch `redmine-7`, commit `2685821`, MIT.
 - Original author: Aleksandar Pavic.
@@ -198,6 +198,9 @@ Then hard-refresh the browser (`Ctrl+F5`). If assets are served from a CDN, purg
 - RedmineUP **Help & Support** (/ Questions) plugin: review the light border that does not
   fit the theme. Keep the fix scoped to the plugin page and use the theme tokens when
   possible.
+- CMS: the pages field keeps a repeated globe icon.
+- Issue list and admin configuration: check horizontal scroll.
+- Vistazo: hide message and date custom fields.
 
 ## Release checklist
 

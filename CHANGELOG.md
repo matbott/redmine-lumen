@@ -4,6 +4,29 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.8.2] — 2026-11-24
+
+### Fixed
+
+- RedmineUP select2 (the tags / multi-select widget in `redmineup.css`) no longer paints a
+  white box that ignores the theme. The plugin ships the stock select2 default theme with
+  hardcoded light colours — `background-color: white`, `border: 1px solid #ccc`, chips
+  `#efefef`, focus `#5ad`, placeholder and arrow `#999` / `#888` — which looked out of place
+  in light mode and was unreadable in dark mode, where the control stayed white while its
+  text turned near-white. Every one of those values now follows the theme tokens, so a
+  select2 field is indistinguishable from a native `<select>`: surface, border, radius and
+  focus ring match `input` / `select` in `application.css`, selected chips take an
+  accent tint, and the dropdown, its search field and the highlighted option use
+  `--rm-surface` / `--rm-accent` / `--rm-on-accent`.
+  Measured in dark mode: control `rgb(255,255,255)` → `rgb(30,44,58)`, border `#ccc` →
+  `#3A5068`, radius `3px` → `8px`, chip `#efefef` → accent tint; dropdown `#1E2C3A` with
+  the highlighted option on the accent. Contrast: 12.36:1 (text on surface), 9.39:1
+  (on-accent on accent), 17.74:1 (light mode).
+
+### Changed
+
+- The theme version is now `1.8.2`.
+
 ## [1.8.1] — 2026-11-24
 
 Bring Lumen level with `redmine-modern-theme-mf-v7` 1.8.1. Both themes now carry the same

@@ -354,6 +354,26 @@ table.issue-report td.vz-prog { white-space: nowrap; }
 .vz-prog-in .vz-bar { flex: none; width: 64px; }
 .vz-prog-in a, .vz-prog-in > span:last-child { min-width: 34px; text-align: right; }
 
+/* RedmineUP Vistazo — custom fields de mensajes y fechas.
+   Los campos personalizados de soporte (mensaje) y de fecha no forman parte del panel
+   Vistazo; se ocultan en el issue details para no ensanchar el layout.
+
+   Redmine renders every custom field as `.attribute.<format>_cf.cf_<id>`, where `<format>`
+   is the field FORMAT (int_cf, float_cf, list_cf, text_cf, date_cf…), and the matching label
+   carries for="issue_custom_field_values_<id>". Both patterns are pinned because not every
+   plugin build emits the class on the wrapper.
+
+   NOTE (verified on Redmine 7.0.3): this instance only defines `int_cf cf_3`, so these rules
+   select nothing yet — they are correct but dormant. Core date attributes (start-date /
+   due-date) are NOT _cf and are untouched on purpose. */
+body.controller-issues .issue.details .attribute[class*="text_cf"],
+body.controller-issues .issue.details .attribute[class*="date_cf"],
+body.controller-issues .issue.details .attribute:has(> .label[for*="text_cf"]),
+body.controller-issues .issue.details .attribute:has(> .label[for*="date_cf"]) {
+  display: none !important;
+}
+
+
 /* Barra de progreso (compartida) */
 .vz-bar {
   height: 6px; border-radius: 99px; overflow: hidden;
@@ -545,6 +565,60 @@ table.issue-report td.vz-prog { white-space: nowrap; }
    spacing. The extra html prefix raises specificity above the plugin's !important rule. */
 html body:has(#content iframe) #content { padding-top: 0 !important; }
 
+/* ── RedmineUP CMS — runaway tab strip width ──
+   redmineup_cms.css ships `#content .tabs ul { width: 10000px }` unconditionally, so EVERY
+   page with a tab strip reports ~10 000px of scroll width inside #content and scrolls
+   sideways. The theme's own `inline-size: auto` in application.css loses because the plugin
+   sheet loads after it. Hiding the overflow only masks the problem and, on /settings, clips
+   the last tabs with no way to reach them — so pin the width here instead.
+   Measured on /settings/edit (Redmine 7.0.3): ul 10000px -> 1129px, #content scrollWidth
+   10028px -> 1185px, zero tabs cut, at 1440 / 1024 / 780 / 600 / 420px. */
+#content .tabs ul { width: auto !important; }
+
+/* ── Settings — controller name ──
+   Settings is its own controller in Redmine 7: /settings/edit renders
+   body.class = "controller-settings action-edit", NOT "controller-admin". The route
+   /admin/settings/configuration does not exist (404). The CMS tab fix above removes the
+   real overflow, so no overflow-x clipping is needed here at all — do not add one back,
+   it cuts the last tabs. */
+
+/* RedmineUP Help & Support — section tiles and ticket panels
+   Real markup: body `controller-questions_sections action-index`, tiles are
+   `a.section-tile.box` inside `.section-list`. The styles come from TWO sheets loaded after
+   the theme: redmine_questions.css (`#e0e0e0` border, `#f8f8f8` hover) and helpdesk.css
+   (`#eee` / `#c0c0c0` cards). The tile is an `<a>`, so pin colour and background, not only
+   the border. Tokens: --rm-surface matches the theme's own `.box`.
+   NOTE: the earlier `body.controller-help` selector never matched anything — the plugin's
+   controller is `questions` / `questions_sections`, not `help`. */
+body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content :is(.section-tile, .metrics.box, form#ticket_data_form, .ticket-history .journal, div.email-template) {
+  background-color: var(--rm-surface) !important;
+  border: 1px solid var(--rm-border) !important;
+  color: var(--rm-fg) !important;
+  box-shadow: none;
+}
+body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content :is(.section-tile, .metrics.box, form#ticket_data_form):hover { border-color: var(--rm-border-2) !important; }
+body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content .section-tile:hover { background-color: var(--rm-surface-2) !important; }
+body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content :is(.section-tile .description, .questions-filters > ul > li a.selected,
+  div.topic div.question-meta .info, #topics_list div.list-item .last-author, #topics_list div.list-item .last-author a,
+  .question-comments .comment .wiki-content, .comments_container .comment .wiki-content, .question-status-badge.editable) { color: var(--rm-muted) !important; }
+body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content :is(.comments_container, .question-comments .comment, .add_comments,
+  .chart_table .header, #customer_profile_and_issues .ajax-loading) { background-color: var(--rm-surface-2) !important; }
+body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content :is(.question-comments .comment, .add_comments:not(:first-child),
+  div.question.answer, .question.solution .liking, #forum_list div.project-forums, #topics_list div.title-bar h4) { border-color: var(--rm-border) !important; }
+/* Question status badges are colour-coded by the plugin (open/closed/answered): keep the fill. */
+
+/* Journal replies on the ticket page use light-mode bubble tints. */
+html.dark-mode body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content .ticket-history div.journal.incoming,
+html.dark-mode body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content .ticket-history div.journal.incoming:after { background: var(--rm-surface-2) !important; border-color: var(--rm-border) !important; }
+html.dark-mode body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content .ticket-history div.journal.outgoing,
+html.dark-mode body:is([class*="controller-questions"], [class*="controller-helpdesk"]) #content .ticket-history div.journal.outgoing:after { background: color-mix(in srgb, var(--rm-accent) 14%, var(--rm-surface)) !important; border-color: var(--rm-border) !important; }
+
+/* RedmineUP Help & Support — repeated world icon in page fields
+   The plugin ships `.icon-web` (world-d90be913.png) with a `:not(:has(svg))` guard; when the
+   theme's icon treatment also draws a glyph the field shows two. Keep one: no icon colour
+   is dropped, only the duplicated bitmap. */
+.icon-web:not(:has(svg)) { background-image: none !important; }
+
 /* RedmineUP Agile — cards #ffffdd, planning columns #f6f7f8/#eee, WIP limits.
    Colour-coded cards (.bk-*) keep their meaning as a left stripe. */
 html.dark-mode .issue-card { background-color: var(--rm-surface-2); border-color: var(--rm-border); color: var(--rm-fg); }
@@ -668,6 +742,15 @@ html.dark-mode .agile-board table.list.issues-board tbody,
 html.dark-mode .agile-board table.list.issues-board tbody tr,
 html.dark-mode .agile-board table.list.issues-board tbody td {
   background: var(--rm-bg) !important;
+}
+
+/* ── Taskboard / board — fondo del contenedor del board ──
+   El plugin pinta `#content` con fondo blanco. Acotado a las páginas del taskboard/board
+   (:has con #rdb*): sin ellas `#content` conserva el `transparent` de application.css y el
+   fondo del scheme se ve a través, que es lo correcto en dark mode. */
+html > body:has(#rdb-taskboard) #content,
+html > body:has(#rdb-board) #content {
+  background-color: var(--rm-bg) !important;
 }
 
 /* ── Submenús / dropdowns que abren los cards ── */
@@ -986,6 +1069,25 @@ html.dark-mode .rdb-taskboard-card[style] {
 .rdb-compact-progress { background-color: var(--rm-border) !important; }
 .rdb-compact-header .rdb-property { color: var(--rm-muted) !important; }
 html.dark-mode .rdb-compact { background: var(--rm-surface) !important; }
+
+/* ── Taskboard / board — mobile ────────────────────────────
+   El taskboard arma sus columnas en una fila horizontal; en móvil se
+   apilan en una sola columna para que la board respete el viewport y las
+   cards del taskboard no se hagan demasiado estrechas. */
+@media (max-width: 900px) {
+  #rdb,
+  #rdb-wrapper,
+  #rdb-board,
+  #rdb-taskboard,
+  .agile-board {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rdb-grid-card {
+    grid-template-columns: 1fr !important;
+  }
+}
 
 /* ── Pins toolbar (plugin) — token-based dark styling ── */
 .pins-toolbar {

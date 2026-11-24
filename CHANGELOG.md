@@ -4,6 +4,60 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.8.1] — 2026-11-24
+
+Bring Lumen level with `redmine-modern-theme-mf-v7` 1.8.1. Both themes now carry the same
+capabilities and share a version number, so a fix validated on one ports cleanly to the other.
+
+### Fixed
+
+- No browser credential prompt on the project overview or My page. The REST API
+  (`/issues.json`) does not authenticate by cookie: it answers `401` with
+  `WWW-Authenticate` and the browser opens its login dialog, which no `fetch` can suppress.
+  Every count now comes from the HTML listing with the session — `vzCount`/`vzTotal` read
+  `.pagination .items` (falling back to counting rows and discarding `tr.nodata`), the
+  attention panel builds its three lists the same way via `toItems()`, and MTTR reads
+  `td.closed_on` / `td.created_on`. The theme makes no REST calls at all now.
+- `queryUrl` serialised a range (`><`) as a single value — `2026-11-23,2026-11-30` — which
+  Redmine rejects as an invalid date. It now emits two `v[]` entries. This also affected
+  My page's "Due soon" link.
+- No horizontal scroll on pages with a tab strip. `redmineup_cms.css` ships
+  `#content .tabs ul { width: 10000px }` unconditionally, so `/settings`, `/issues` and
+  `/time_entries` reported ~10 000px of scroll width inside `#content` and scrolled
+  sideways. The theme's own `inline-size: auto` lost because the plugin sheet loads after
+  it; the width is now pinned in `custom.css`. Measured on `/settings/edit`: tab strip
+  10000px → 1129px, `#content` scrollWidth 10028px → 1185px, zero tabs cut, at 1440 / 1024
+  / 780 / 600 / 420px. Do not "fix" this with `overflow-x: hidden` — that clips the last
+  tabs with no way to reach them.
+- RedmineUP Help & Support now styled on the real controller. The earlier
+  `body.controller-help` selector never matched: the plugin renders `controller-questions`
+  / `controller-questions_sections`. Section tiles, metric panels, ticket forms and journal
+  bubbles follow the theme tokens in light and dark.
+- Taskboard / board container background is scoped to the board pages
+  (`:has(#rdb-taskboard)`, `:has(#rdb-board)`) instead of every page, so `#content` keeps
+  its transparent background elsewhere and the scheme shows through in dark mode.
+- Taskboard columns stack in a single column at ≤900px instead of overflowing the viewport.
+
+### Added
+
+- RedmineUP Vistazo hides message- and date-format custom fields in the issue details.
+  Dormant on this instance (only `int_cf cf_3` exists) but correct as soon as such a field
+  is defined. Core `start-date` / `due-date` attributes are untouched on purpose.
+- Repeated world icon on Help & Support page fields is down to one glyph.
+
+### Changed
+
+- The theme version is now `1.8.1`, matching the MF v7 theme.
+
+### Notes
+
+- Redmine 7 renders settings on `controller-settings action-edit` at `/settings/edit`;
+  `/admin/settings/configuration` does not exist. Selectors assuming `controller-admin`
+  will silently do nothing.
+- HTML counts cost more requests than the API did (six for the chips, three for the panel).
+  If it ever drags, the proper fix is a Redmine plugin endpoint with `Issue.visible` and
+  `GROUP BY tracker_id`, not going back to the REST API.
+
 ## [1.7.2] — 2026-11-20
 
 ### Fixed

@@ -6,7 +6,7 @@ Internal notes for maintaining Lumen without rebuilding context from scratch.
 
 - Theme id / folder: `redmine-lumen`
 - Display name: `Lumen`
-- Current version: `1.7.2`
+- Current version: `1.8.1`
 - Upstream: [`acosonic/redmine-modern-theme`](https://github.com/acosonic/redmine-modern-theme),
   branch `redmine-7`, commit `2685821`, MIT.
 - Original author: Aleksandar Pavic.

@@ -4,6 +4,25 @@ All notable changes to Lumen are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.8.3] — 2026-11-24
+
+### Fixed
+
+- The select2 token overrides from 1.8.2 had no effect in the browser. The RedmineUP bundle
+  is loaded *after* the theme's stylesheets and the selectors sit at the same specificity
+  (`.select2-container--default .select2-selection--multiple` = 0,2,0 on both sides), so the
+  plugin's hardcoded `white` / `#ccc` won and the theme rules were inert. Every property in
+  the block now carries `!important` — the plugin does not use `!important` on select2, so it
+  loses cleanly. Verified by mounting a select2 with the theme sheet first and the plugin
+  sheet after it: without `!important` the control stayed `#fff` / `#ccc` / `3px`, with it
+  it becomes `#1E2C3A` / `#3A5068` / `8px` in dark.
+  Chips additionally compete with the plugin's own `.filter .select2-container--default …`
+  (0,4,0), which is another reason the override cannot rely on cascade order alone.
+
+### Changed
+
+- The theme version is now `1.8.3`.
+
 ## [1.8.2] — 2026-11-24
 
 ### Fixed

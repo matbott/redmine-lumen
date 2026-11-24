@@ -9,7 +9,7 @@ Lumen is a community fork of
 (branch `redmine-7`). It keeps the upstream design system and adds project dashboards,
 issue-list metrics, initials avatars, plugin compatibility and English/Spanish UI strings.
 
-- **Current version:** `1.8.2`
+- **Current version:** `1.8.3`
 - **Redmine:** 7.0 or later
 - **License:** MIT
 - **Theme folder:** `redmine-lumen`
